@@ -23,7 +23,6 @@ export default function RecipeScreen(props) {
   const { navigation, route } = props;
 
   const item = route.params?.item;
-  console.log('item=======', item);
   const category = getCategoryById(item.categoryId);
   const title = getCategoryName(category.id);
 

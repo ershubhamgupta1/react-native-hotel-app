@@ -32,8 +32,6 @@ const CreateItemScreen = (props) => {
   }, []);
 
   const onSubmit = useCallback((formData) => {
-    console.log(formData);
-    
   }, []);
 
   const onChangeField = useCallback((name) => (text) => {

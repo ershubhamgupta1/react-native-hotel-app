@@ -15,7 +15,9 @@ import CreateupdateQuantityScreen from '../screens/CreateupdateQuantity/Createup
 import EmptyItemsScreen from '../screens/EmptyItems/EmptyItems';
 import LoginScreen from '../screens/Login/LoginScreen';
 import RegistrationScreen from '../screens/Signup/SignupScreen';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { db } from '../firebase/config';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const Stack = createStackNavigator();
 
@@ -23,9 +25,12 @@ function MainNavigator() {
   const [user, setUser] = useState(null)
   useEffect(()=>{
     const auth = getAuth();
-    onAuthStateChanged(auth, user => {
-      console.log('status changed------', user);
-      if (user) {
+    onAuthStateChanged(auth, async(userCredential) => {
+      if (userCredential) {
+        const uid = userCredential.uid;
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+        const user = docSnap.data();
         setUser(user);
         // usersRef
         //   .doc(user.uid)

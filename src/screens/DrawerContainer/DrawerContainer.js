@@ -3,6 +3,8 @@ import { View } from "react-native";
 import PropTypes from "prop-types";
 import styles from "./styles";
 import MenuButton from "../../components/MenuButton/MenuButton";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+
 
 export default function DrawerContainer(props) {
   const { navigation } = props;
@@ -38,6 +40,15 @@ export default function DrawerContainer(props) {
           source={require("../../../assets/icons/warning.png")}
           onPress={() => {
             navigation.navigate("EmptyItems");
+            navigation.closeDrawer();
+          }}
+        />
+        <MenuButton
+          title="Logout"
+          source={require("../../../assets/icons/logout.png")}
+          onPress={() => {
+            const auth = getAuth();
+            signOut(auth);
             navigation.closeDrawer();
           }}
         />

@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
-import { app } from '../../firebase/config.js';
+import { app, db } from '../../firebase/config.js';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
+import { setDoc, doc } from "firebase/firestore";
 
 export default function RegistrationScreen({navigation}) {
     const [fullName, setFullName] = useState('')
@@ -23,28 +23,17 @@ export default function RegistrationScreen({navigation}) {
         }
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
-            .then((response) => {
-                console.log('response========', response);
+            .then(async(response) => {
                 const uid = response.user.uid
-                const data = {
-                    id: uid,
-                    email,
-                    fullName,
-                };
-                const usersRef = firebase.firestore().collection('users')
-                usersRef
-                    .doc(uid)
-                    .set(data)
-                    .then(() => {
-                        navigation.navigate('Home', {user: data})
-                    })
-                    .catch((error) => {
-                        alert(error)
-                    });
+                const data = {id: uid, email, fullName };
+                await setDoc(doc(db, "users", uid), data);
+                navigation.navigate('Home', {user: data})
             })
             .catch((error) => {
-                console.log('error========', error);
-                alert(error)
+
+                if(error.code.includes('auth/email-already-in-use')) alert('Email already in use!');
+                else if(error.code.includes('auth/weak-password')) alert('Password should be atleast 6 characters!');
+                else alert(error.message);
         });
     }
     

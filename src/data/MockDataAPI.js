@@ -131,6 +131,5 @@ export function getRecipesByRecipeName(recipeName) {
 }
 
 export function getEmptyRecipes() {
-  console.log('recipes=========', recipes);
   return recipes.filter(recipe=> !recipe.quantity);
 }

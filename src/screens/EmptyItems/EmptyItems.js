@@ -12,7 +12,6 @@ export default function EmptyItemScreen(props) {
   
   useEffect(()=>{
     const data = getEmptyRecipes();
-    console.log('data------>>>>>>>>>>>', data);
     setData(data);
   }, []);
   useLayoutEffect(() => {

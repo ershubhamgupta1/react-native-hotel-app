@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
-import { app } from '../../firebase/config.js';
+import { db } from '../../firebase/config.js';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
@@ -13,21 +14,21 @@ export default function LoginScreen({navigation}) {
         navigation.navigate('Registration')
     }
 
-    const onLoginPress = () => {
-        const auth = getAuth();
-        signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            console.log('userCredential=========', userCredential);
-            // Signed in 
-            const user = userCredential.user;
-            navigation.navigate('Home', {user})
+    const onLoginPress = async () => {
+        try{
+            const auth = getAuth();
+            await signInWithEmailAndPassword(auth, email, password);
+            // const uid = userCredential.user.uid;
+            // const docRef = doc(db, "users", uid);
+            // const docSnap = await getDoc(docRef);
+            // const user = docSnap.data();
+        }
+        catch(error){
+            if(error.code.includes('auth/invalid-login-credentials')) alert('Invalid Credentials!');
+            else if(error.code.includes('auth/invalid-email')) alert('Invalid Email!');
+            else alert(error.message);
 
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-        });
+        }
     }
 
     return (
@@ -60,6 +61,7 @@ export default function LoginScreen({navigation}) {
                 />
                 <TouchableOpacity
                     style={styles.button}
+                    disabled={!email || !password}
                     onPress={() => onLoginPress()}>
                     <Text style={styles.buttonTitle}>Log in</Text>
                 </TouchableOpacity>

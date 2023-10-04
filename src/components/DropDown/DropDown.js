@@ -33,7 +33,6 @@ export default function DropDown(props)  {
       // defaultValueByIndex={1}
       // defaultValue={'England'}
       onSelect={(selectedItem, index) => {
-        console.log(selectedItem, index);
         onSelect({selectedItem, index});
       }}
       defaultButtonText={'Select quantity type'}
