@@ -5,30 +5,15 @@ const styles = StyleSheet.create({
   container: RecipeCard.container,
   photo: RecipeCard.photo,
   title: RecipeCard.title,
-  category: RecipeCard.category,
-  btnIcon: {
-    height: 14,
-    width: 14,
+  emptyItemMsgContainer: {
+    justifyContent: 'center',
+    backgroundColor: '#ffffff',
+    height: '100%',
   },
-  searchContainer: { 
-    flexDirection: "row", 
-    alignItems: "center", 
-    backgroundColor: "#EDEDED", 
-    borderRadius: 10, 
-    width: 250,
-    justifyContent: "space-around"
+  emptyItemMsg: {
+    textAlign: 'center',
+    color: '#000000',
   },
-  searchIcon: { 
-    width: 20, 
-    height: 20, 
-    tintColor: 'grey' 
-  },
-  searchInput: {
-    backgroundColor: "#EDEDED",
-    color: "black",
-    width: 180,
-    height: 50,
-  }
 });
 
 export default styles;

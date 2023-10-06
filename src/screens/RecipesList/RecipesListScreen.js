@@ -39,7 +39,6 @@ export default function RecipesListScreen(props) {
   const onPressRecipe = (item) => {
     navigation.navigate("Recipe", { item });
   };
-console.log('itemsByCategory======', itemsByCategory);
   const renderRecipes = ({ item }) => (
     <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressRecipe(item)}>
       <View style={styles.container}>

@@ -1,9 +1,7 @@
 import React, { useLayoutEffect, useEffect } from "react";
 import { FlatList, Text, View, TouchableHighlight, Image } from "react-native";
 import styles from "./styles";
-import { recipes } from "../../data/restArray";
 import MenuImage from "../../components/MenuImage/MenuImage";
-import { getCategoryName } from "../../data/MockDataAPI";
 import {useSelector, useDispatch} from 'react-redux';
 import {getItems} from '../../redux/items/actions';
 
@@ -40,7 +38,6 @@ export default function HomeScreen(props) {
         <Image style={styles.photo} source={{ uri: item.photo_url }} />
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.title}>{item.category.name}</Text>
-        {/* <Text style={styles.category}>{getCategoryName(item.categoryId)}</Text> */}
       </View>
     </TouchableHighlight>
   );

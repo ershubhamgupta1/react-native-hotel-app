@@ -1,4 +1,4 @@
-import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT } from './actionTypes';
+import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS } from './actionTypes';
 import { collection, query, where, getDocs, doc, documentId } from "firebase/firestore";
 import { db } from '../../firebase/config.js';
 
@@ -11,14 +11,12 @@ import { db } from '../../firebase/config.js';
 
 const addCategoryAndComponentsInItem = async(querySnapshot)=>{
   let items = [];
-  console.log('querySnapshot==========', querySnapshot.empty, querySnapshot.docs);
   if(querySnapshot.empty) return [];
   const itemsByCategory = {};
   const categoryIds = [];
   querySnapshot.forEach((doc) => {
     const componentIds = [];
     const components = [];
-    console.log('ready to call componennts=======', doc.get('components'));
     doc.get('components') && doc.get('components').forEach(comp=>{
       componentIds.push(comp.id.id);
       components.push({id: comp.id.id, quantity: comp.quantity})
@@ -30,7 +28,6 @@ const addCategoryAndComponentsInItem = async(querySnapshot)=>{
       itemsByCategory[doc.get('categoryId').id].push({id: doc.id, ...doc.data(), categoryId: doc.get('categoryId').id, componentIds, components});
     }
   });
-  console.log('categoryIds>>>>>>>>>', categoryIds);
 
   const categoryQuery = query(collection(db, "categories"), where(documentId(), "in", categoryIds));
   const categoryQuerySnapshot = await getDocs(categoryQuery);
@@ -63,7 +60,6 @@ export const getItems = () => {
 };
 
 export const getItemsByCategory = (categoryId) => {
-  console.log('getItemsByCategory===========', categoryId);
 
   try {
     return async dispatch => {
@@ -75,7 +71,6 @@ export const getItemsByCategory = (categoryId) => {
       //     items.push({id: doc.id, ...doc.data()});
       //   });
       const items = await addCategoryAndComponentsInItem(querySnapshot);
-      console.log('getItemsByCategory items===========', items);
       dispatch({
         type: GET_ITEMS_BY_CATEGORY,
         payload: items,
@@ -94,11 +89,6 @@ export const getItemsByComponent = (componentId) => {
 
       const querySnapshot = await getDocs(q);
       const items = await addCategoryAndComponentsInItem(querySnapshot);
-
-      // const items = [];
-      // querySnapshot.forEach((doc) => {
-      //     items.push({id: doc.id, ...doc.data()});
-      //   });
         dispatch({
           type: GET_ITEMS_BY_COMPONENT,
           payload: items,
@@ -108,4 +98,20 @@ export const getItemsByComponent = (componentId) => {
       alert(error);
   }
 };
-  
+
+export const getEmptyItems = () => {
+  try {
+    return async dispatch => {
+      const q = query(collection(db, "items"), where('quantity', "<=", 0));
+      const querySnapshot = await getDocs(q);
+      const items = await addCategoryAndComponentsInItem(querySnapshot);
+      dispatch({
+        type: GET_EMPTY_ITEMS,
+        payload: items,
+      });
+    };
+  } catch (error) {
+      console.log('got error in fetching items------', error);
+      alert(error);
+  }
+};

@@ -1,10 +1,11 @@
-import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT } from './actionTypes';
+import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS } from './actionTypes';
 
 //initializing state
 const initialState = {
    items: [],
    itemsByCategory: [],
-   itemsByComponent: []
+   itemsByComponent: [],
+   emptyItems: []
 }
 const itemsReducer = (state = initialState, action) => {
    switch (action.type) {
@@ -22,6 +23,11 @@ const itemsReducer = (state = initialState, action) => {
       return {
          ...state, 
          itemsByComponent: action.payload
+      }
+      case GET_EMPTY_ITEMS: 
+      return {
+         ...state, 
+         emptyItems: action.payload
       }
       default: return state
    }

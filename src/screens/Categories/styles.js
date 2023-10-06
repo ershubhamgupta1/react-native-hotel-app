@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
   categoriesItemContainer: {
@@ -24,7 +24,13 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 5,
     shadowOpacity: 1.0,
-    elevation: 3
+    ...Platform.select({
+      ios: {
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
   },
   categoriesName: {
     flex: 1,

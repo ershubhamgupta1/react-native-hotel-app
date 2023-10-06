@@ -39,7 +39,6 @@ export default function CategoriesScreen(props) {
   const onPressCategory = (item) => {
     const title = item.name;
     const category = item;
-    console.log('on press category===========', item);
     if(!item.itemCount) alert('No item found!') 
     else navigation.navigate("RecipesList", { category, title });
   };

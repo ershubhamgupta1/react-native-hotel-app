@@ -43,7 +43,7 @@ export default function IngredientScreen(props) {
   );
 
   return (
-    <ScrollView style={styles.mainContainer}>
+    <View style={styles.mainContainer}>
       <View style={{ borderBottomWidth: 0.4, marginBottom: 10, borderBottomColor: "grey" }}>
         <Image style={styles.photoComponent} source={{ uri: "" + componentUrl }} />
       </View>
@@ -51,6 +51,6 @@ export default function IngredientScreen(props) {
       <View>
         <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={itemsByComponent} renderItem={renderRecipes} keyExtractor={(item) => `${item.id}`} />
       </View>
-    </ScrollView>
+    </View>
   );
 }
