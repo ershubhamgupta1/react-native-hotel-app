@@ -18,6 +18,8 @@ import RegistrationScreen from '../screens/Signup/SignupScreen';
 import { db } from '../firebase/config';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import {Provider} from 'react-redux';
+import {store} from '../redux/store';
 
 const Stack = createStackNavigator();
 
@@ -108,9 +110,12 @@ function DrawerStack() {
 
  export default function AppContainer() {
   return(
-    <NavigationContainer>
-      <DrawerStack/>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <DrawerStack/>
+      </NavigationContainer>
+    </Provider>
+
   )
 } 
  

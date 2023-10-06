@@ -23,8 +23,11 @@ export default function RecipeScreen(props) {
   const { navigation, route } = props;
 
   const item = route.params?.item;
-  const category = getCategoryById(item.categoryId);
-  const title = getCategoryName(category.id);
+  const category = item.category;
+  const title = item.category.name;
+
+  // const category = getCategoryById(item.categoryId);
+  // const title = getCategoryName(category.id);
 
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -52,11 +55,11 @@ export default function RecipeScreen(props) {
     </TouchableHighlight>
   );
 
-  const onPressIngredient = (item) => {
-    var name = getIngredientName(item);
-    let ingredient = item;
-    navigation.navigate("Ingredient", { ingredient, name });
-  };
+  // const onPressIngredient = (item) => {
+  //   var name = getIngredientName(item);
+  //   let ingredient = item;
+  //   navigation.navigate("Ingredient", { ingredient, name });
+  // };
 
   return (
     <ScrollView style={styles.container}>
@@ -100,7 +103,7 @@ export default function RecipeScreen(props) {
             }
           >
             <Text style={styles.category}>
-              {getCategoryName(item.categoryId).toUpperCase()}
+              {title}
             </Text>
           </TouchableHighlight>
         </View>
@@ -115,11 +118,16 @@ export default function RecipeScreen(props) {
 
         <View style={styles.infoContainer}>
           <ViewIngredientsButton
-            title='View Ingredients'
+            title='View Components'
             onPress={() => {
-              let ingredients = item.ingredients;
-              let title = "Ingredients for " + item.title;
-              navigation.navigate("IngredientsDetails", { ingredients, title });
+              let componentIds = item.componentIds;
+              let components = item.components;
+
+              if(!componentIds || componentIds.length === 0) alert('Components not found!');
+              else {
+                let title = "Ingredients for " + item.title;
+                navigation.navigate("IngredientsDetails", { componentIds, components, title });
+              }  
             }}
           />
         </View>
@@ -127,13 +135,11 @@ export default function RecipeScreen(props) {
           <ViewIngredientsButton
             title='Update Quantity'
             onPress={() => {
-              let ingredients = item.ingredients;
               let title = "Ingredients for " + item.title;
-              navigation.navigate("updateQuantity", { ingredients, title, quantityType: item.quantityType });
+              navigation.navigate("updateQuantity", { title, quantityType: item.quantityType });
             }}
           />
         </View>
-
         <View style={styles.infoContainer}>
           <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
         </View>

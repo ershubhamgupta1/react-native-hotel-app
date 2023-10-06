@@ -1,17 +1,23 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useEffect } from "react";
 import { FlatList, Text, View, TouchableHighlight, Image } from "react-native";
 import styles from "./styles";
 import { getRecipes, getCategoryName } from "../../data/MockDataAPI";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useSelector, useDispatch} from 'react-redux';
+import {getItemsByCategory} from '../../redux/items/actions';
 
 export default function RecipesListScreen(props) {
   const { navigation, route } = props;
+  const { itemsByCategory } = useSelector(state => state.itemsReducer);
+  const dispatch = useDispatch();
+  const fetchItems = (id) => dispatch(getItemsByCategory(id));
+  
+  useEffect(() => {
+  const item = route?.params?.category;
+    fetchItems(item.id);
+  }, []);
 
   const item = route?.params?.category;
-  const recipesArray = getRecipes(item.id);
-
-
-
   useLayoutEffect(() => {
     navigation.setOptions({
       title: route.params?.title,
@@ -33,7 +39,7 @@ export default function RecipesListScreen(props) {
   const onPressRecipe = (item) => {
     navigation.navigate("Recipe", { item });
   };
-
+console.log('itemsByCategory======', itemsByCategory);
   const renderRecipes = ({ item }) => (
     <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressRecipe(item)}>
       <View style={styles.container}>
@@ -47,7 +53,7 @@ export default function RecipesListScreen(props) {
 
   return (
     <View>
-      <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={recipesArray} renderItem={renderRecipes} keyExtractor={(item) => `${item.recipeId}`} />
+      <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={itemsByCategory} renderItem={renderRecipes} keyExtractor={(item) => `${item.id}`} />
     </View>
   );
 }

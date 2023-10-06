@@ -1,14 +1,24 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useEffect } from "react";
 import { FlatList, ScrollView, Text, View, Image, TouchableHighlight } from "react-native";
 import styles from "./styles";
 import { getIngredientUrl, getRecipesByIngredient, getCategoryName } from "../../data/MockDataAPI";
+import {useSelector, useDispatch} from 'react-redux';
+import {getItemsByComponent} from '../../redux/items/actions';
 
 export default function IngredientScreen(props) {
   const { navigation, route } = props;
 
-  const ingredientId = route.params?.ingredient;
-  const ingredientUrl = getIngredientUrl(ingredientId);
-  const ingredientName = route.params?.name;
+  const {id, name, photo_url} = route.params?.ingredient || {};
+  const ingredientUrl = photo_url;
+  const ingredientName = name;
+
+  const { itemsByComponent } = useSelector(state => state.itemsReducer);
+  const dispatch = useDispatch();
+  const fetchItems = (id) => dispatch(getItemsByComponent(id));
+  
+  useEffect(() => {
+    fetchItems(id);
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,7 +49,7 @@ export default function IngredientScreen(props) {
       </View>
       <Text style={styles.ingredientInfo}>Recipes with {ingredientName}:</Text>
       <View>
-        <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={getRecipesByIngredient(ingredientId)} renderItem={renderRecipes} keyExtractor={(item) => `${item.recipeId}`} />
+        <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={itemsByComponent} renderItem={renderRecipes} keyExtractor={(item) => `${item.recipeId}`} />
       </View>
     </ScrollView>
   );

@@ -10,9 +10,9 @@ const itemQuantityTypes = [
   ];
 
 const FormScreen = (props) => {
-  const [form, setForm] = useState({});
-  const [isRegistered, setIsRegistered] = useState(false);
   const { navigation, route } = props;
+  const [form, setForm] = useState({quantityType: route.params?.quantityType});
+  const [isRegistered, setIsRegistered] = useState(false);
   
   useLayoutEffect(() => {
     navigation.setOptions({
