@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20
   },
-  photoIngredient: {
+  photoComponent: {
     width: '100%',
     height: 250,
     alignSelf: 'center'

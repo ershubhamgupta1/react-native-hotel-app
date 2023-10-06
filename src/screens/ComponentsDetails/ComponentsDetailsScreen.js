@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useEffect } from "react";
 import { FlatList, Text, View, Image, TouchableHighlight } from "react-native";
 import styles from "./styles";
-import { getIngredientName, getAllIngredients } from "../../data/MockDataAPI";
 import {useSelector, useDispatch} from 'react-redux';
 import {getComponentsByIds} from '../../redux/components/actions';
 
@@ -23,8 +22,6 @@ export default function ComponentsDetailsScreen(props) {
     fetchItems(componentIds);
   }, []);
   const item = route.params?.componentIds;
-  // const ingredientsArray = getAllIngredients(item);
-
   useLayoutEffect(() => {
     navigation.setOptions({
       title: route.params?.title,
@@ -35,8 +32,6 @@ export default function ComponentsDetailsScreen(props) {
   }, []);
 
   const onPressComponent = (item) => {
-    let name = getIngredientName(item.ingredientId);
-    let ingredient = item.ingredientId;
     navigation.navigate("Ingredient", { ingredient: item });
   };
 

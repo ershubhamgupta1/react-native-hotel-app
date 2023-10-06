@@ -7,9 +7,8 @@ import CategoriesScreen from '../screens/Categories/CategoriesScreen';
 import RecipeScreen from '../screens/Recipe/RecipeScreen';
 import RecipesListScreen from '../screens/RecipesList/RecipesListScreen';
 import DrawerContainer from '../screens/DrawerContainer/DrawerContainer';
-import IngredientScreen from '../screens/Ingredient/IngredientScreen';
+import ComponentScreen from '../screens/Component/ComponentScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
-import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsDetailsScreen';
 import CreateItemScreen from '../screens/CreateItem/CreateItemScreen';
 import CreateupdateQuantityScreen from '../screens/CreateupdateQuantity/CreateupdateQuantityScreen';
 import EmptyItemsScreen from '../screens/EmptyItems/EmptyItems';
@@ -20,6 +19,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import {Provider} from 'react-redux';
 import {store} from '../redux/store';
+import ComponentsDetailsScreen from '../screens/ComponentsDetails/ComponentsDetailsScreen';
 
 const Stack = createStackNavigator();
 
@@ -70,9 +70,9 @@ function MainNavigator() {
         <Stack.Screen name='Categories' component={CategoriesScreen}/>
         <Stack.Screen name='Recipe' component={RecipeScreen}/>
         <Stack.Screen name='RecipesList' component={RecipesListScreen} />
-        <Stack.Screen name='Ingredient' component={IngredientScreen} />
+        <Stack.Screen name='Ingredient' component={ComponentScreen} />
         <Stack.Screen name='Search' component={SearchScreen} />
-        <Stack.Screen name='IngredientsDetails' component={IngredientsDetailsScreen} />
+        <Stack.Screen name='IngredientsDetails' component={ComponentsDetailsScreen} />
         <Stack.Screen name='updateQuantity' component={CreateupdateQuantityScreen} />
         <Stack.Screen name='createItem' component={CreateItemScreen} />
         <Stack.Screen name='EmptyItems' component={EmptyItemsScreen} />
