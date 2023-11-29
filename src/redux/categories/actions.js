@@ -18,11 +18,12 @@ export const getCategories = () => {
         const categories = [];
         querySnapshot.forEach((doc) => {
             categories.push({id: doc.id, ...doc.data()});
-          });
-          dispatch({
-            type: GET_CATEGORIES,
-            payload: categories,
-          });
+        });
+        categories.sort((a, b)=> a.displayOrder - b.displayOrder);
+        dispatch({
+          type: GET_CATEGORIES,
+          payload: categories,
+        });
       };
     } catch (error) {
         console.log('got error in fetching categories------', error);

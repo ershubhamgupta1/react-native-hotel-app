@@ -5,7 +5,7 @@ import {View, Text, SafeAreaView, StatusBar, Dimensions, StyleSheet, ScrollView,
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function DropDown(props)  {
-    const {data, onSelect, defaultValue} = props;
+    const {data, onSelect, defaultValue, defaultButtonText, renderDropDown, renderSelectLabel} = props;
     return (
     //     <SelectDropdown
     //     data={data}
@@ -35,14 +35,10 @@ export default function DropDown(props)  {
       onSelect={(selectedItem, index) => {
         onSelect({selectedItem, index});
       }}
-      defaultButtonText={'Select quantity type'}
+      defaultButtonText={defaultButtonText}
       defaultValue={defaultValue}
-      buttonTextAfterSelection={(selectedItem, index) => {
-        return selectedItem;
-      }}
-      rowTextForSelection={(item, index) => {
-        return item;
-      }}
+      buttonTextAfterSelection={renderSelectLabel}
+      rowTextForSelection={renderDropDown}
       buttonStyle={styles.dropdown2BtnStyle}
       buttonTextStyle={styles.dropdown2BtnTxtStyle}
       renderDropdownIcon={isOpened => {

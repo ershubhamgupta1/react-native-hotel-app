@@ -1,4 +1,4 @@
-import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS } from './actionTypes';
+import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS, GET_ITEMS_COUNT } from './actionTypes';
 
 //initializing state
 const initialState = {
@@ -29,6 +29,13 @@ const itemsReducer = (state = initialState, action) => {
          ...state, 
          emptyItems: action.payload
       }
+      case GET_ITEMS_COUNT: 
+      return {
+         ...state, 
+         totalItemsCount: action.payload.count
+      }
+
+      
       default: return state
    }
 }

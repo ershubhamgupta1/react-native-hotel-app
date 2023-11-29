@@ -20,7 +20,6 @@ export default function RecipeScreen(props) {
   const item = route.params?.item;
   const category = item.category;
   const title = item.category.name;
-
   // const category = getCategoryById(item.categoryId);
   // const title = getCategoryName(category.id);
 
@@ -108,7 +107,7 @@ export default function RecipeScreen(props) {
             style={styles.infoPhoto}
             source={require("../../../assets/icons/time.png")}
           />
-          <Text style={styles.infoRecipe}>{item.time} minutes </Text>
+          <Text style={styles.infoRecipe}>{item.time} </Text>
         </View>
 
         <View style={styles.infoContainer}>
@@ -128,10 +127,10 @@ export default function RecipeScreen(props) {
         </View>
         <View style={styles.infoContainer}>
           <ViewIngredientsButton
-            title='Update Quantity'
+            title='Update Item'
             onPress={() => {
-              let title = "Ingredients for " + item.title;
-              navigation.navigate("updateQuantity", { title, quantityType: item.quantityType });
+              navigation.navigate("createItem", {item});
+              // navigation.navigate("updateQuantity", { title, quantityType: item.quantityType });
             }}
           />
         </View>

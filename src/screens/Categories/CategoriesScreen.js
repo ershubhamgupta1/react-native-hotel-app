@@ -1,8 +1,6 @@
 import React, { useLayoutEffect, useEffect } from "react";
 import { FlatList, Text, View, Image, TouchableHighlight } from "react-native";
 import styles from "./styles";
-import { categories } from "../../data/restArray";
-import { getNumberOfRecipes } from "../../data/MockDataAPI";
 import MenuImage from "../../components/MenuImage/MenuImage";
 import {useSelector, useDispatch} from 'react-redux';
 import {getCategories} from '../../redux/categories/actions';

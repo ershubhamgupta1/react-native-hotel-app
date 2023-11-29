@@ -11,7 +11,7 @@ export default function RecipesListScreen(props) {
   const { itemsByCategory } = useSelector(state => state.itemsReducer);
   const dispatch = useDispatch();
   const fetchItems = (id) => dispatch(getItemsByCategory(id));
-  
+ 
   useEffect(() => {
   const item = route?.params?.category;
     fetchItems(item.id);
@@ -45,11 +45,10 @@ export default function RecipesListScreen(props) {
         <Image style={styles.photo} source={{ uri: item.photo_url }} />
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.category}>Count: {item.quantity}</Text>
-        <Text style={styles.category}>{getCategoryName(item.categoryId)}</Text>
+        <Text style={styles.category}>{item.category.name}</Text>
       </View>
     </TouchableHighlight>
   );
-
   return (
     <View>
       <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={itemsByCategory} renderItem={renderRecipes} keyExtractor={(item) => `${item.id}`} />

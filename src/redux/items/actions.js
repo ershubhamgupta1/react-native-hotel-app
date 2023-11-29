@@ -1,13 +1,6 @@
-import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS } from './actionTypes';
-import { collection, query, where, getDocs, doc, documentId } from "firebase/firestore";
+import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS, GET_ITEMS_COUNT } from './actionTypes';
+import { collection, query, where, getDocs, doc, documentId, setDoc, getCountFromServer } from "firebase/firestore";
 import { db } from '../../firebase/config.js';
-
-// export const getCategories = (parameter) => {
-//    return {
-//       type: GET_CATEGORIES,
-//       payload: parameter
-//    }
-// }
 
 const addCategoryAndComponentsInItem = async(querySnapshot)=>{
   let items = [];
@@ -25,7 +18,7 @@ const addCategoryAndComponentsInItem = async(querySnapshot)=>{
     if(!itemsByCategory[doc.get('categoryId').id]){
       itemsByCategory[doc.get('categoryId').id] = {items : [{id: doc.id, ...doc.data(), categoryId: doc.get('categoryId').id, componentIds, components}]};
     } else {
-      itemsByCategory[doc.get('categoryId').id].push({id: doc.id, ...doc.data(), categoryId: doc.get('categoryId').id, componentIds, components});
+      itemsByCategory[doc.get('categoryId').id].items.push({id: doc.id, ...doc.data(), categoryId: doc.get('categoryId').id, componentIds, components});
     }
   });
 
@@ -84,12 +77,11 @@ export const getItemsByCategory = (categoryId) => {
 export const getItemsByComponent = (componentId) => {
   try {
     return async dispatch => {
-      const componentDocRef = doc(db, "components", componentId);
       const q = query(collection(db, "items"), where('componentIds', "array-contains", componentId));
-
       const querySnapshot = await getDocs(q);
       const items = await addCategoryAndComponentsInItem(querySnapshot);
-        dispatch({
+
+      dispatch({
           type: GET_ITEMS_BY_COMPONENT,
           payload: items,
         });
@@ -114,4 +106,46 @@ export const getEmptyItems = () => {
       console.log('got error in fetching items------', error);
       alert(error);
   }
+};
+
+export const getItemsCount = () => {
+  try {
+    return async dispatch => {
+      const q = query(collection(db, "items"));
+      
+      const querySnapshot = await getCountFromServer(q);
+      const count = querySnapshot.data().count;
+      dispatch({
+        type: GET_ITEMS_COUNT,
+        payload: {count: count},
+      });
+    };
+  } catch (error) {
+      console.log('got error in fetching items count------', error);
+      alert(error);
+  }
+};
+
+export const createUpdateItem = (payload, callback) => {
+  return async dispatch => {
+    try{
+      console.log('payload==========', typeof payload.id);
+      const docRef = doc(db, "items", payload.id);
+      console.log('payload.categoryId==========', payload.categoryId);
+
+      payload.categoryId = doc(db, 'categories/' + payload.categoryId)
+
+      setDoc(docRef, payload);
+      callback();
+      // dispatch({
+      //     type: GET_ITEMS_BY_COMPONENT,
+      //     payload: items,
+      //   });
+    }
+    catch(err){
+      console.log('err==========', err);
+      alert('Internal server error');
+
+    }
+  };
 };

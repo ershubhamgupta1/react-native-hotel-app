@@ -36,12 +36,11 @@ export default function IngredientScreen(props) {
         <View style={styles.container}>
           <Image style={styles.photo} source={{ uri: item.photo_url }} />
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.category}>{getCategoryName(item.categoryId)}</Text>
+          <Text style={styles.category}>{item.category.name}</Text>
         </View>
       </TouchableHighlight>
     </TouchableHighlight>
   );
-
   return (
     <View style={styles.mainContainer}>
       <View style={{ borderBottomWidth: 0.4, marginBottom: 10, borderBottomColor: "grey" }}>
