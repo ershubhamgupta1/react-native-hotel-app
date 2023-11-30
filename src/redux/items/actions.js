@@ -1,5 +1,5 @@
-import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS, GET_ITEMS_COUNT } from './actionTypes';
-import { collection, query, where, getDocs, doc, documentId, setDoc, getCountFromServer } from "firebase/firestore";
+import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS, GET_ITEMS_COUNT, GET_ITEM_BY_ID } from './actionTypes';
+import { collection, query, where, getDocs, doc, documentId, setDoc, updateDoc, getCountFromServer } from "firebase/firestore";
 import { db } from '../../firebase/config.js';
 
 const addCategoryAndComponentsInItem = async(querySnapshot)=>{
@@ -32,6 +32,7 @@ const addCategoryAndComponentsInItem = async(querySnapshot)=>{
     itemsByCategory[doc.id] = catItems;
     items = items.concat(catItems);
   });
+
   return items;
 }
 
@@ -129,9 +130,7 @@ export const getItemsCount = () => {
 export const createUpdateItem = (payload, callback) => {
   return async dispatch => {
     try{
-      console.log('payload==========', typeof payload.id);
       const docRef = doc(db, "items", payload.id);
-      console.log('payload.categoryId==========', payload.categoryId);
 
       payload.categoryId = doc(db, 'categories/' + payload.categoryId)
 
@@ -148,4 +147,46 @@ export const createUpdateItem = (payload, callback) => {
 
     }
   };
+};
+
+export const updateComponentsForItem = ({itemId, componentIds}) => {
+  try {
+    return async dispatch => {
+      const docRef = doc(db, "items", itemId.toString());
+      const components = componentIds.map(id=>{
+        return {
+          id: doc(db, 'items/' + id),
+          quantity: 0
+        }
+      })
+      updateDoc(docRef, {componentIds, components});
+      dispatch(getItemById(itemId));
+
+
+      // dispatch({
+      //   type: GET_COMPONENTS_BY_IDS,
+      //   payload: components,
+      // });
+    };
+  } catch (error) {
+      alert(error);
+  }
+};
+
+
+export const getItemById = (id) => {
+  try {
+
+    return async dispatch => {
+      const q = query(collection(db, "items"), where(documentId(), "==", id.toString()));
+        const querySnapshot = await getDocs(q);
+        const items = await addCategoryAndComponentsInItem(querySnapshot);
+      dispatch({
+        type: GET_ITEM_BY_ID,
+        payload: items[0],
+      });
+    };
+  } catch (error) {
+      alert(error);
+  }
 };

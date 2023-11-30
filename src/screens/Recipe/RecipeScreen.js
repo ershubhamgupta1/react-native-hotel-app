@@ -16,12 +16,10 @@ const { width: viewportWidth } = Dimensions.get("window");
 
 export default function RecipeScreen(props) {
   const { navigation, route } = props;
-
   const item = route.params?.item;
-  const category = item.category;
-  const title = item.category.name;
-  // const category = getCategoryById(item.categoryId);
-  // const title = getCategoryName(category.id);
+  const {id: itemId, componentIds, components, title, category} = item;
+  const catTitle = category.name;
+
 
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -48,12 +46,6 @@ export default function RecipeScreen(props) {
       </View>
     </TouchableHighlight>
   );
-
-  // const onPressIngredient = (item) => {
-  //   var name = getIngredientName(item);
-  //   let ingredient = item;
-  //   navigation.navigate("Ingredient", { ingredient, name });
-  // };
 
   return (
     <ScrollView style={styles.container}>
@@ -93,11 +85,11 @@ export default function RecipeScreen(props) {
         <View style={styles.infoContainer}>
           <TouchableHighlight
             onPress={() =>
-              navigation.navigate("RecipesList", { category, title })
+              navigation.navigate("RecipesList", { category, title: catTitle })
             }
           >
             <Text style={styles.category}>
-              {title}
+              {catTitle}
             </Text>
           </TouchableHighlight>
         </View>
@@ -112,16 +104,12 @@ export default function RecipeScreen(props) {
 
         <View style={styles.infoContainer}>
           <ViewIngredientsButton
-            title='View Components'
+            title='Components'
             onPress={() => {
-              let componentIds = item.componentIds;
-              let components = item.components;
-
-              if(!componentIds || componentIds.length === 0) alert('Components not found!');
-              else {
-                let title = "Ingredients for " + item.title;
-                navigation.navigate("IngredientsDetails", { componentIds, components, title });
-              }  
+              navigation.navigate("IngredientsDetails", { itemId, componentIds, components, title });
+              // if(!componentIds || componentIds.length === 0) alert('Components not found!');
+              // else {
+              // }  
             }}
           />
         </View>
@@ -130,10 +118,21 @@ export default function RecipeScreen(props) {
             title='Update Item'
             onPress={() => {
               navigation.navigate("createItem", {item});
-              // navigation.navigate("updateQuantity", { title, quantityType: item.quantityType });
             }}
           />
         </View>
+        <View style={styles.infoContainer}>
+          <ViewIngredientsButton
+            title='Calculate Cost'
+            onPress={() => {
+              if(!componentIds || componentIds.length === 0) alert('Please add components firstly!');
+              else {
+                navigation.navigate("itemCostCalculate", {componentIds, components, title});
+              }  
+            }}
+          />
+        </View>
+
         <View style={styles.infoContainer}>
           <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
         </View>

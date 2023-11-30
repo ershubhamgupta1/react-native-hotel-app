@@ -5,38 +5,16 @@ import {View, Text, SafeAreaView, StatusBar, Dimensions, StyleSheet, ScrollView,
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function DropDown(props)  {
-    const {data, onSelect, defaultValue, defaultButtonText, renderDropDown, renderSelectLabel} = props;
+    const {data, onSelect, defaultValue, defaultValueByIndex, defaultButtonText, renderDropDown, renderSelectLabel} = props;
     return (
-    //     <SelectDropdown
-    //     data={data}
-    //     buttonStyle={{backgroundColor: 'darkgray', borderRadius: '10px', marginVertical: 20, height: 30}}
-    //     buttonTextStyle={{fontSize: '14px'}}
-    //     searchPlaceHolderColor='aaa'
-    //     searchPlaceHolder='aaaa'
-    //     // defaultValueByIndex={1} // use default value by index or default value
-    //     // defaultValue={'Canada'} // use default value by index or default value
-    //     onSelect={(selectedItem, index) => {
-    //       console.log(selectedItem, index);
-    //       onSelect({selectedItem, index});
-    //     }}
-    //     buttonTextAfterSelection={(selectedItem, index) => {
-    //       return selectedItem;
-    //     }}
-    //     rowTextForSelection={(item, index) => {
-    //       return item;
-    //     }}
-    //   />
-
-
       <SelectDropdown
       data={data}
-      // defaultValueByIndex={1}
-      // defaultValue={'England'}
       onSelect={(selectedItem, index) => {
         onSelect({selectedItem, index});
       }}
       defaultButtonText={defaultButtonText}
       defaultValue={defaultValue}
+      defaultValueByIndex={defaultValueByIndex}
       buttonTextAfterSelection={renderSelectLabel}
       rowTextForSelection={renderDropDown}
       buttonStyle={styles.dropdown2BtnStyle}

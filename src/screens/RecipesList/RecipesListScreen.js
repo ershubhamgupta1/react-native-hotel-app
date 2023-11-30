@@ -31,8 +31,7 @@ export default function RecipesListScreen(props) {
           </TouchableHighlight>
           </View>
         )
-      } 
-      ,
+      },
     });
   }, []);
 

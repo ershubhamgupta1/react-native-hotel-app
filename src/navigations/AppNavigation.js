@@ -10,6 +10,8 @@ import DrawerContainer from '../screens/DrawerContainer/DrawerContainer';
 import ComponentScreen from '../screens/Component/ComponentScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import CreateItemScreen from '../screens/CreateItem/CreateItemScreen';
+import ItemCostCalculateScreen from '../screens/ItemCostCalculate/ItemCostCalculate';
+
 import CreateupdateQuantityScreen from '../screens/CreateupdateQuantity/CreateupdateQuantityScreen';
 import EmptyItemsScreen from '../screens/EmptyItems/EmptyItems';
 import LoginScreen from '../screens/Login/LoginScreen';
@@ -76,6 +78,9 @@ function MainNavigator() {
         <Stack.Screen name='updateQuantity' component={CreateupdateQuantityScreen} />
         <Stack.Screen name='createItem' component={CreateItemScreen} />
         <Stack.Screen name='EmptyItems' component={EmptyItemsScreen} />
+        <Stack.Screen name='itemCostCalculate' component={ItemCostCalculateScreen} />
+
+        
       </>
     ) : (
           <>

@@ -1,4 +1,5 @@
-import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS, GET_ITEMS_COUNT } from './actionTypes';
+import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS,
+GET_ITEMS_COUNT, GET_ITEM_BY_ID } from './actionTypes';
 
 //initializing state
 const initialState = {
@@ -34,8 +35,28 @@ const itemsReducer = (state = initialState, action) => {
          ...state, 
          totalItemsCount: action.payload.count
       }
+      case GET_ITEM_BY_ID: 
+      let {items, itemsByCategory, itemsByComponent} = state;
+      items = items.map(item=>{
+         if(item.id === action.payload.id) return action.payload;
+         else return item;
+      })
+      itemsByComponent = itemsByComponent.map(item=>{
+         if(item.id === action.payload.id) return action.payload;
+         else return item;
+      })
+      itemsByCategory = itemsByCategory.map(item=>{
+         if(item.id === action.payload.id) return action.payload;
+         else return item;
+      })
 
-      
+      return {
+         ...state,
+         items,
+         itemsByComponent, 
+         itemsByCategory,
+         totalItemsCount: action.payload.count
+      }
       default: return state
    }
 }
