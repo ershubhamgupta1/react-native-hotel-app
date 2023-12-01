@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useEffect, useState, useCallback } from "react";
-import { Text, View, Image, TouchableHighlight } from "react-native";
+import { Text, View, TouchableHighlight } from "react-native";
 import {useSelector, useDispatch} from 'react-redux';
 import BackButton from "../../components/BackButton/BackButton";
 import {getItems, updateComponentsForItem} from '../../redux/items/actions';
@@ -16,8 +16,6 @@ export default function ItemCostCalculateScreen(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [totalCost, setTotalCost] = useState(0);
   const [components, setComponents] = useState(componentsProp);
-
-  console.log('currentItem=========', currentItem);
 
   if(components && items && components.length > 0 && items.length > 0){
     for(let i=0 ; i < items.length; i++){
@@ -41,13 +39,18 @@ export default function ItemCostCalculateScreen(props) {
   }, []);
 
   useEffect(() => {
+    setTotalCost(calculateCost(components));
+  }, [components]);
+
+  const calculateCost = useCallback((components, currentItem)=>{
     let cost = 0;
     for(let i=0; i < components.length; i++){
-      const {costPerUnit, quantity} = components[i];
-      cost +=  quantity * costPerUnit;
+      const {costPerUnit, quantity, id} = components[i];
+      if(currentItem && currentItem.id == id) cost +=  currentItem.quantity * costPerUnit;
+      else cost +=  quantity * costPerUnit;
     }
-    setTotalCost(cost);
-  }, [components]);
+    return cost;
+  }, [components, currentItem])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -134,9 +137,10 @@ export default function ItemCostCalculateScreen(props) {
                   if(comp.id == currentItem.itemId) comp = {...comp, quantity:  parseFloat(currentItem.quantity)};
                   return comp;
                 });
+                const finalCost = calculateCost(components, currentItem);
                 setComponents(tempComponents);
                 setCurrentItem({});
-                dispatch(updateComponentsForItem({itemId: itemId, components: tempComponents, totalCost}))
+                dispatch(updateComponentsForItem({itemId: itemId, components: tempComponents, totalCost: finalCost}))
                 setModalVisible(false);
               }} />
             </Modal.Footer>

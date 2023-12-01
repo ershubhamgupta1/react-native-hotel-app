@@ -11,8 +11,10 @@ import ComponentScreen from '../screens/Component/ComponentScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import CreateItemScreen from '../screens/CreateItem/CreateItemScreen';
 import ItemCostCalculateScreen from '../screens/ItemCostCalculate/ItemCostCalculate';
+import StockListScreen from '../screens/StockList/StockListScreen';
 
-import CreateupdateQuantityScreen from '../screens/CreateupdateQuantity/CreateupdateQuantityScreen';
+
+import createOrderScreen from '../screens/CreateOrder/CreateOrderScreen';
 import EmptyItemsScreen from '../screens/EmptyItems/EmptyItems';
 import LoginScreen from '../screens/Login/LoginScreen';
 import RegistrationScreen from '../screens/Signup/SignupScreen';
@@ -75,12 +77,11 @@ function MainNavigator() {
         <Stack.Screen name='Ingredient' component={ComponentScreen} />
         <Stack.Screen name='Search' component={SearchScreen} />
         <Stack.Screen name='IngredientsDetails' component={ComponentsDetailsScreen} />
-        <Stack.Screen name='updateQuantity' component={CreateupdateQuantityScreen} />
+        <Stack.Screen name='createOrder' component={createOrderScreen} />
         <Stack.Screen name='createItem' component={CreateItemScreen} />
         <Stack.Screen name='EmptyItems' component={EmptyItemsScreen} />
         <Stack.Screen name='itemCostCalculate' component={ItemCostCalculateScreen} />
-
-        
+        <Stack.Screen name='stockList' component={StockListScreen} />
       </>
     ) : (
           <>

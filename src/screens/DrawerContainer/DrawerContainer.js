@@ -36,10 +36,18 @@ export default function DrawerContainer(props) {
           }}
         />
         <MenuButton
-          title="EMPTY ITEMS"
+          title="OUT OF STOCK"
           source={require("../../../assets/icons/warning.png")}
           onPress={() => {
             navigation.navigate("EmptyItems");
+            navigation.closeDrawer();
+          }}
+        />
+        <MenuButton
+          title="CREATE ORDER"
+          source={require("../../../assets/icons/category.png")}
+          onPress={() => {
+            navigation.navigate("createOrder");
             navigation.closeDrawer();
           }}
         />
@@ -49,6 +57,14 @@ export default function DrawerContainer(props) {
           onPress={() => {
             const auth = getAuth();
             signOut(auth);
+            navigation.closeDrawer();
+          }}
+        />
+        <MenuButton
+          title="STOCK LIST"
+          source={require("../../../assets/icons/category.png")}
+          onPress={() => {
+            navigation.navigate("stockList");
             navigation.closeDrawer();
           }}
         />

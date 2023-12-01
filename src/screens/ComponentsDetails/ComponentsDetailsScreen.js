@@ -76,7 +76,7 @@ export default function ComponentsDetailsScreen(props) {
     return (
       <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressComponent(item)}>
         <View style={styles.container}>
-          <Image style={styles.photo} source={{ uri: item.photo_url }} />
+          <Image style={styles.photo} source={{ uri: item.photo_url || null}} />
           <Text style={styles.title}>{item.name}</Text>
           <Text style={{ color: "grey" }}>{item.quantity} {item.quantityType}</Text>
         </View>

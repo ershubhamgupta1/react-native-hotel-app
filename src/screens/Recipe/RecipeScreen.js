@@ -1,4 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
+import {useSelector} from 'react-redux';
+
 import {
   ScrollView,
   Text,
@@ -17,11 +19,14 @@ const { width: viewportWidth } = Dimensions.get("window");
 
 export default function RecipeScreen(props) {
   const { navigation, route } = props;
-  const item = route.params?.item;
-  const {id: itemId, componentIds, components, title, category, sellingPricePerUnit=0, costPerUnit=0, time,
-  quantityType, photosArray, description} = item;
-  const catTitle = category.name;
+  const itemId = route.params?.itemId;
 
+  const { items } = useSelector(state => state.itemsReducer);
+  const item = items && items.find(item => item.id == itemId);
+  
+  const {componentIds, components, title, category, sellingPricePerUnit=0, costPerUnit=0, time,
+    quantityType, photosArray, description} = item || {};
+  const catTitle = category.name;
 
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -44,7 +49,7 @@ export default function RecipeScreen(props) {
   const renderImage = ({ item }) => (
     <TouchableHighlight>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: item }} />
+        <Image style={styles.image} source={{ uri: item || null }} />
       </View>
     </TouchableHighlight>
   );

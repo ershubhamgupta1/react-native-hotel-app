@@ -29,13 +29,14 @@ export default function HomeScreen(props) {
   }, []);
 
   const onPressRecipe = (item) => {
-    navigation.navigate("Recipe", { item });
+    // navigation.navigate("Recipe", { item });
+    navigation.navigate("Recipe", { itemId: item.id });
   };
 
   const renderRecipes = ({ item }) => (
     <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressRecipe(item)}>
       <View style={styles.container}>
-        <Image style={styles.photo} source={{ uri: item.photo_url }} />
+        <Image style={styles.photo} source={{ uri: item.photo_url || null}} />
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.title}>{item.category.name}</Text>
       </View>
