@@ -78,13 +78,13 @@ const CreateItemScreen = (props) => {
 
   const handleSubmit = useCallback(() => {
     const photosArray = [];
-    const { id, title, photo_url, photo_url1, photo_url2, photo_url3, quantity, quantityType, time, categoryId, description, costPerUnit } = form;
+    const { id, title, photo_url, photo_url1, photo_url2, photo_url3, quantity, quantityType, time, categoryId, description, costPerUnit, sellingPricePerUnit } = form;
     if(photo_url) photosArray.push(photo_url);
     if(photo_url1) photosArray.push(photo_url1);
     if(photo_url2) photosArray.push(photo_url2);
     if(photo_url3) photosArray.push(photo_url3);
     const payload = {
-      id: id.toString(),
+      id: id,
       title,
       photo_url,
       description,
@@ -93,7 +93,8 @@ const CreateItemScreen = (props) => {
       quantityType,
       time,
       categoryId,
-      costPerUnit: Number(quantity)
+      costPerUnit: Number(costPerUnit),
+      sellingPricePerUnit: Number(sellingPricePerUnit),
     };
 
     if(!id){
@@ -114,6 +115,7 @@ const CreateItemScreen = (props) => {
         <Input  placeholder='Item name' inputMode='text' value={form.title} returnKeyType='done' onChangeText={onChangeField('title')}/>
         <Input disabled={!form.quantityType} placeholder='Quantity' inputMode='decimal' value={form.quantity && form.quantity.toString()} returnKeyType='done' onChangeText={(value)=>{onChangeField('quantity')(value)}}/>
         <Input disabled={!form.quantityType} placeholder='Cost per unit' inputMode='decimal' value={form.costPerUnit && form.costPerUnit.toString()} returnKeyType='done' onChangeText={(value)=>{onChangeField('costPerUnit')(value)}}/>
+        <Input disabled={!form.quantityType} placeholder='Selling Price' inputMode='decimal' value={form.sellingPricePerUnit && form.sellingPricePerUnit.toString()} returnKeyType='done' onChangeText={(value)=>{onChangeField('sellingPricePerUnit')(value)}}/>
         <Input disabled={!form.quantityType} placeholder='Time' inputMode='text' value={form.time} returnKeyType='done' onChangeText={onChangeField('time')}/>
         <Input disabled={!form.quantityType} placeholder='Main Photo Url' inputMode='text' value={form.photo_url} returnKeyType='done' onChangeText={onChangeField('photo_url')}/>
         <Input disabled={!form.quantityType} placeholder='Photo Url 1' inputMode='text' value={form.photo_url1} returnKeyType='done' onChangeText={onChangeField('photo_url1')}/>

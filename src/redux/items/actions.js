@@ -130,11 +130,10 @@ export const getItemsCount = () => {
 export const createUpdateItem = (payload, callback) => {
   return async dispatch => {
     try{
-      const docRef = doc(db, "items", payload.id);
-
+      const docRef = doc(db, "items", payload.id.toString());
       payload.categoryId = doc(db, 'categories/' + payload.categoryId)
-
-      setDoc(docRef, payload);
+      console.log('payload=========', payload);
+      updateDoc(docRef, payload);
       callback();
       // dispatch({
       //     type: GET_ITEMS_BY_COMPONENT,
@@ -149,17 +148,31 @@ export const createUpdateItem = (payload, callback) => {
   };
 };
 
-export const updateComponentsForItem = ({itemId, componentIds}) => {
+export const updateComponentsForItem = ({itemId, componentIds, components, totalCost}) => {
   try {
-    return async dispatch => {
-      const docRef = doc(db, "items", itemId.toString());
-      const components = componentIds.map(id=>{
+    const payload = {};
+    if(totalCost) payload.costPerUnit = totalCost;
+    if(componentIds) {
+      payload.components = componentIds.map(id=>{
         return {
           id: doc(db, 'items/' + id),
           quantity: 0
         }
-      })
-      updateDoc(docRef, {componentIds, components});
+      });
+      payload.componentIds = componentIds;
+    }
+    if(components) {
+      payload.components = components.map(comp=>{
+        return {
+          id: doc(db, 'items/' + comp.id),
+          quantity: comp.quantity 
+        }
+      });
+    } 
+    return async dispatch => {
+      const docRef = doc(db, "items", itemId.toString());
+      console.log('payload==========',itemId, payload);
+      updateDoc(docRef, payload);
       dispatch(getItemById(itemId));
 
 

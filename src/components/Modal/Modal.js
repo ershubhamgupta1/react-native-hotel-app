@@ -24,9 +24,9 @@ const ModalContainer = ({ children }) => (
   <View style={styles.container}>{children}</View>
 );
 
-const ModalHeader = ({ title }) => (
+const ModalHeader = ({ title, textStyle }) => (
   <View style={styles.header}>
-    <Text style={styles.text}>{title}</Text>
+    <Text style={{...styles.text, ...textStyle}}>{title}</Text>
   </View>
 );
 
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   header: {
     alignItems: "center",
     justifyContent: "center",
-    fontSize: 12
   },
   text: {
     paddingTop: 10,

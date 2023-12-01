@@ -83,13 +83,12 @@ export default function ComponentsDetailsScreen(props) {
       </TouchableHighlight>
     )
   }
-
   return (
     <View>
       {
         isEditComp &&
         <View>
-          <MultiSelectDropdown showSelectedItems={true} dropDownStyle={{height: 100}} defaultButtonText='Select Component' displayKey='title' data={items} selectedItems={selectedComponentIds} renderSelectLabel={(item)=>item.title} renderDropDown={(item)=> item.title} onSelect={(selectedIds)=>{
+          <MultiSelectDropdown showSelectedItems={true} dropDownStyle={{height: 100}} defaultButtonText='Select Component' displayKey='title' data={items} selectedItems={selectedComponentIds} onSelect={(selectedIds)=>{
             setSelectedComponentIds(selectedIds);
           }} />
           <Button type="outline" buttonStyle={{borderColor: '#2cd18a'}} titleStyle={{color: '#2cd18a'}} style={{marginTop: 20}} title='Update' onPress={()=>{

@@ -11,13 +11,15 @@ import styles from "./styles";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import BackButton from "../../components/BackButton/BackButton";
 import ViewIngredientsButton from "../../components/ViewButton/ViewButton";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const { width: viewportWidth } = Dimensions.get("window");
 
 export default function RecipeScreen(props) {
   const { navigation, route } = props;
   const item = route.params?.item;
-  const {id: itemId, componentIds, components, title, category} = item;
+  const {id: itemId, componentIds, components, title, category, sellingPricePerUnit=0, costPerUnit=0, time,
+  quantityType, photosArray, description} = item;
   const catTitle = category.name;
 
 
@@ -53,7 +55,7 @@ export default function RecipeScreen(props) {
         <View style={styles.carousel}>
           <Carousel
             ref={slider1Ref}
-            data={item.photosArray}
+            data={photosArray}
             renderItem={renderImage}
             sliderWidth={viewportWidth}
             itemWidth={viewportWidth}
@@ -67,7 +69,7 @@ export default function RecipeScreen(props) {
             onSnapToItem={(index) => setActiveSlide(0)}
           />
           <Pagination
-            dotsLength={item.photosArray.length}
+            dotsLength={photosArray.length}
             activeDotIndex={activeSlide}
             containerStyle={styles.paginationContainer}
             dotColor="rgba(255, 255, 255, 0.92)"
@@ -81,7 +83,7 @@ export default function RecipeScreen(props) {
         </View>
       </View>
       <View style={styles.infoRecipeContainer}>
-        <Text style={styles.infoRecipeName}>{item.title}</Text>
+        <Text style={styles.infoRecipeName}>{title}</Text>
         <View style={styles.infoContainer}>
           <TouchableHighlight
             onPress={() =>
@@ -99,7 +101,13 @@ export default function RecipeScreen(props) {
             style={styles.infoPhoto}
             source={require("../../../assets/icons/time.png")}
           />
-          <Text style={styles.infoRecipe}>{item.time} </Text>
+          <Text style={styles.infoRecipe}>{time} </Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoRecipe}>Cost Price: <FontAwesome name={'rupee'} color={'black'} size={12} />{costPerUnit}/{quantityType} </Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoRecipe}>Selling Price : <FontAwesome name={'rupee'} color={'black'} size={12} />{sellingPricePerUnit}/{quantityType} </Text>
         </View>
 
         <View style={styles.infoContainer}>
@@ -107,9 +115,6 @@ export default function RecipeScreen(props) {
             title='Components'
             onPress={() => {
               navigation.navigate("IngredientsDetails", { itemId, componentIds, components, title });
-              // if(!componentIds || componentIds.length === 0) alert('Components not found!');
-              // else {
-              // }  
             }}
           />
         </View>
@@ -127,14 +132,14 @@ export default function RecipeScreen(props) {
             onPress={() => {
               if(!componentIds || componentIds.length === 0) alert('Please add components firstly!');
               else {
-                navigation.navigate("itemCostCalculate", {componentIds, components, title});
+                navigation.navigate("itemCostCalculate", {itemId, componentIds, components, title});
               }  
             }}
           />
         </View>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
+          <Text style={styles.infoDescriptionRecipe}>{description}</Text>
         </View>
       </View>
     </ScrollView>

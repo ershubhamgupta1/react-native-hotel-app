@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useEffect, useState, useCallback } from "react"
 import { Text, View, Image, TouchableHighlight } from "react-native";
 import {useSelector, useDispatch} from 'react-redux';
 import BackButton from "../../components/BackButton/BackButton";
-import {getItems} from '../../redux/items/actions';
+import {getItems, updateComponentsForItem} from '../../redux/items/actions';
 import SelectDropdown from '../../components/DropDown/DropDown'
 import styles from "./styles";
 import {Modal} from "../../components/Modal/Modal";
@@ -10,11 +10,14 @@ import {Input, Button, ListItem, Avatar} from 'react-native-elements'
 
 export default function ItemCostCalculateScreen(props) {
   const { navigation, route } = props;
-  const {components, title} = route?.params;
+  const {components: componentsProp, title, itemId} = route?.params;
   const { items } = useSelector(state => state.itemsReducer);
-  const [form, setForm] = useState({currentItem : {}});
+  const [currentItem, setCurrentItem] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [totalCost, setTotalCost] = useState(0);
+  const [components, setComponents] = useState(componentsProp);
+
+  console.log('currentItem=========', currentItem);
 
   if(components && items && components.length > 0 && items.length > 0){
     for(let i=0 ; i < items.length; i++){
@@ -78,10 +81,11 @@ export default function ItemCostCalculateScreen(props) {
 
 
   const onChangeField = useCallback((name) => (text) => {
-    setForm({...form, [name]: text});
-  }, [form]);
+    if(name === 'quantity') setCurrentItem({...currentItem, quantity: text.replace('(?<=^| )\d+\.\d+(?=$| )', '')});
+    else setCurrentItem({...currentItem, [name]: text});
+  }, [currentItem]);
 
-  const itemIndex = items.findIndex(i=> i.id === form.currentItem.itemId);
+  const itemIndex = items.findIndex(i=> i.id === currentItem.itemId);
 
   return (
     <View>
@@ -90,7 +94,7 @@ export default function ItemCostCalculateScreen(props) {
         {
             components.map((l, i) => (
               <TouchableHighlight key={i} onPress={()=>{
-                setForm({...form, currentItem : l})
+                setCurrentItem({...currentItem, ...l})
                 setModalVisible(true)
               }}>
                 <ListItem bottomDivider>
@@ -107,13 +111,14 @@ export default function ItemCostCalculateScreen(props) {
       <View>
         <Modal isVisible={modalVisible}>
           <Modal.Container>
-            <Modal.Header title="Add Component" />
+            <Modal.Header fontSize={16} textStyle={{fontSize: 16, marginBottom: 10}} title="Update Quantity" />
             <Modal.Body>
               <SelectDropdown defaultButtonText='Select Component' defaultValueByIndex={itemIndex} data={items} renderSelectLabel={(item)=>item.title} renderDropDown={(item)=> item.title} onSelect={({selectedItem, index})=>{
                 onChangeField('currentItem')({id: selectedItem.id, quantityType: selectedItem.quantityType});
               }} />
-              <Text>Quantity Type : {form.currentItem && form.currentItem.quantityType} </Text>
-              <Input disabled={!(form.currentItem && form.currentItem.quantityType)}  inputMode='decimal' value={form.currentItem.quantity.toString()} placeholder='Quantity' returnKeyType='done' onChangeText={(value)=>{
+              <Text>Quantity Type : {currentItem && currentItem.quantityType} </Text>
+               <Text>Quantity :</Text> 
+               <Input disabled={!(currentItem && currentItem.quantityType)}  inputMode='decimal' value={currentItem.quantity + ''} placeholder='Quantity' returnKeyType='done' onChangeText={(value)=>{
                 onChangeField('quantity')(value)
               }}/>
 
@@ -121,8 +126,17 @@ export default function ItemCostCalculateScreen(props) {
             <Modal.Footer>
             <Button type="outline" buttonStyle={{borderColor: '#2cd18a'}} titleStyle={{color: '#2cd18a'}} style={{marginRight: 10}} title='Cancel' onPress={()=>{
                 setModalVisible(false);
+                setCurrentItem({});
               }} />
-              <Button type="outline" buttonStyle={{borderColor: '#2cd18a'}} titleStyle={{color: '#2cd18a'}} style={{marginRight: 10}} disabled={!form.quantity} title='Update' onPress={()=>{
+              <Button type="outline" buttonStyle={{borderColor: '#2cd18a'}} titleStyle={{color: '#2cd18a'}} style={{marginRight: 10}} disabled={!currentItem.quantity} title='Update' onPress={()=>{
+                let tempComponents = JSON.parse(JSON.stringify(components));
+                tempComponents = tempComponents.map(comp=> {
+                  if(comp.id == currentItem.itemId) comp = {...comp, quantity:  parseFloat(currentItem.quantity)};
+                  return comp;
+                });
+                setComponents(tempComponents);
+                setCurrentItem({});
+                dispatch(updateComponentsForItem({itemId: itemId, components: tempComponents, totalCost}))
                 setModalVisible(false);
               }} />
             </Modal.Footer>
