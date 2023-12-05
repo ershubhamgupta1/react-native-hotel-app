@@ -1,4 +1,4 @@
-import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS, GET_ITEMS_COUNT, GET_ITEM_BY_ID, SEARCH_ITEM_BY_TEXT } from './actionTypes';
+import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS, GET_ITEMS_COUNT, GET_ITEM_BY_ID, SEARCH_ITEM_BY_TEXT, GET_ITEMS_BY_CATEGORY_LOADING } from './actionTypes';
 import { collection, query, where, getDocs, doc, documentId, setDoc, updateDoc, getCountFromServer, writeBatch } from "firebase/firestore";
 import { db } from '../../firebase/config.js';
 
@@ -63,6 +63,10 @@ export const getItems = () => {
 export const getItemsByCategory = (categoryId) => {
   try {
     return async dispatch => {
+      dispatch({
+        type: GET_ITEMS_BY_CATEGORY_LOADING,
+        payload: {isLoading: true},
+      });
       const categoryDocRef = await doc(db, "categories", categoryId.toString());
       const q = await query(collection(db, "items"), where("categoryId", "==", categoryDocRef));
       const querySnapshot = await getDocs(q);

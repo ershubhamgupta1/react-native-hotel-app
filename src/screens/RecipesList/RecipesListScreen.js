@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useEffect } from "react";
-import { FlatList, Text, View, TouchableHighlight, Image } from "react-native";
+import { FlatList, Text, View, TouchableHighlight, Image, ActivityIndicator } from "react-native";
 import styles from "./styles";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useSelector, useDispatch} from 'react-redux';
@@ -7,7 +7,7 @@ import {getItemsByCategory} from '../../redux/items/actions';
 
 export default function RecipesListScreen(props) {
   const { navigation, route } = props;
-  const { itemsByCategory } = useSelector(state => state.itemsReducer);
+  const { itemsByCategory, isLoading } = useSelector(state => state.itemsReducer);
   const dispatch = useDispatch();
   const fetchItems = (id) => dispatch(getItemsByCategory(id));
  
@@ -15,6 +15,7 @@ export default function RecipesListScreen(props) {
   const item = route?.params?.category;
     fetchItems(item.id);
   }, []);
+
 
   const item = route?.params?.category;
   useLayoutEffect(() => {
@@ -50,7 +51,15 @@ export default function RecipesListScreen(props) {
   );
   return (
     <View>
-      <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={itemsByCategory} renderItem={renderRecipes} keyExtractor={(item) => `${item.id}`} />
+      {!isLoading &&
+      <View style={{justifyContent: 'center', width : 600, height: 600}}>
+        <ActivityIndicator />
+      </View>
+      } 
+      {
+        isLoading &&
+        <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={itemsByCategory} renderItem={renderRecipes} keyExtractor={(item) => `${item.id}`} />
+      }
     </View>
   );
 }

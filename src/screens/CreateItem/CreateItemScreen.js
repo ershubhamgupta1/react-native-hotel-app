@@ -18,7 +18,7 @@ const CreateItemScreen = (props) => {
   const {item} = route.params;
   let initFormState = {};
   if(item && item.id){
-    const {title, id, photo_url, photosArray, category, quantityType, quantity, time, minQuantityForAlert, costPerUnit, sellingPricePerUnit, description} = item;
+    const {title, id, photo_url, photosArray, category, quantityType, quantity, homeStoreQuantity, time, minQuantityForAlert, costPerUnit, sellingPricePerUnit, description} = item;
     if(photosArray && photosArray.length){
     const [photo_url1, photo_url2, photo_url3] = photosArray;
     if(photo_url1) initFormState.photo_url1 = photo_url1;
@@ -35,6 +35,9 @@ const CreateItemScreen = (props) => {
     
     if(time) initFormState.time = time;
     if(quantity) initFormState.quantity = quantity;
+    if(homeStoreQuantity) initFormState.homeStoreQuantity = homeStoreQuantity;
+
+    
     if(minQuantityForAlert) initFormState.minQuantityForAlert = minQuantityForAlert;
     
     if(costPerUnit) initFormState.costPerUnit = costPerUnit;
@@ -95,6 +98,7 @@ const CreateItemScreen = (props) => {
       description,
       photosArray,
       quantity: quantity ? Number(quantity) : 0,
+      homeStoreQuantity: homeStoreQuantity ? Number(quanhomeStoreQuantitytity) : 0,
       minQuantityForAlert: minQuantityForAlert ? Number(minQuantityForAlert) : 0,
       quantityType,
       time,
@@ -116,7 +120,8 @@ const CreateItemScreen = (props) => {
         <SelectDropdown defaultButtonText='Select category' defaultValue={form.category} data={categories} renderSelectLabel={(item)=>item.name} renderDropDown={(item)=> item.name} onSelect={({selectedItem, index})=>{onChangeField('categoryId')(selectedItem.id)}} />
         <SelectDropdown defaultButtonText='Select quantity type' defaultValue={form.quantityType} renderSelectLabel={(item)=>item} renderDropDown={(item)=>item} data={itemQuantityTypes} onSelect={({selectedItem, index})=>{onChangeField('quantityType')(selectedItem)}} />
         <Input label='Item name' inputMode='text' value={form.title} returnKeyType='done' onChangeText={onChangeField('title')}/>
-        <Input disabled={!form.quantityType} label='Quantity' inputMode='decimal' value={form.quantity && form.quantity.toString()} returnKeyType='done' onChangeText={(value)=>{onChangeField('quantity')(value)}}/>
+        <Input disabled={!form.quantityType} label='Shop Store Quantity' inputMode='decimal' value={form.quantity && form.quantity.toString()} returnKeyType='done' onChangeText={(value)=>{onChangeField('quantity')(value)}}/>
+        <Input disabled={!form.quantityType} label='Home Store Quantity' inputMode='decimal' value={form.homeStoreQuantity && form.homeStoreQuantity.toString()} returnKeyType='done' onChangeText={(value)=>{onChangeField('homeStoreQuantity')(value)}}/>        
         <Input disabled={!form.quantityType} label='Min quantity for alert' inputMode='decimal' value={form.minQuantityForAlert && form.minQuantityForAlert.toString()} returnKeyType='done' onChangeText={(value)=>{onChangeField('minQuantityForAlert')(value)}}/>
         <Input disabled={!form.quantityType} label='Cost per unit' inputMode='decimal' value={form.costPerUnit && form.costPerUnit.toString()} returnKeyType='done' onChangeText={(value)=>{onChangeField('costPerUnit')(value)}}/>
         <Input disabled={!form.quantityType} label='Selling Price' inputMode='decimal' value={form.sellingPricePerUnit && form.sellingPricePerUnit.toString()} returnKeyType='done' onChangeText={(value)=>{onChangeField('sellingPricePerUnit')(value)}}/>

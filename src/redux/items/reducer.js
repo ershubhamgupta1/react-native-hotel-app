@@ -1,44 +1,57 @@
 import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS,
-GET_ITEMS_COUNT, GET_ITEM_BY_ID, SEARCH_ITEM_BY_TEXT } from './actionTypes';
+GET_ITEMS_COUNT, GET_ITEM_BY_ID, SEARCH_ITEM_BY_TEXT, GET_ITEMS_BY_CATEGORY_LOADING } from './actionTypes';
 
 //initializing state
 const initialState = {
    items: [],
    itemsByCategory: [],
    itemsByComponent: [],
-   emptyItems: []
+   emptyItems: [],
+   isLoading: false
 }
 const itemsReducer = (state = initialState, action) => {
    switch (action.type) {
       case GET_ITEMS: 
       return {
          ...state, 
-         items: action.payload
+         items: action.payload,
+         isLoading: false
+      }
+      case GET_ITEMS_BY_CATEGORY_LOADING: 
+      return {
+         ...state, 
+         isLoading: true,
+         itemsByCategory: action.payload
       }
       case GET_ITEMS_BY_CATEGORY: 
       return {
          ...state, 
+         isLoading: false,
          itemsByCategory: action.payload
       }
       case GET_ITEMS_BY_COMPONENT: 
       return {
          ...state, 
-         itemsByComponent: action.payload
+         itemsByComponent: action.payload,
+         isLoading: false
       }
       case GET_EMPTY_ITEMS: 
       return {
          ...state, 
-         emptyItems: action.payload
+         emptyItems: action.payload,
+         isLoading: false
       }
       case GET_ITEMS_COUNT: 
       return {
          ...state, 
-         totalItemsCount: action.payload.count
+         totalItemsCount: action.payload.count,
+         isLoading: false
       }
       case SEARCH_ITEM_BY_TEXT: 
       return {
          ...state, 
-         searchedItems: action.payload
+         searchedItems: action.payload,
+         isLoading: false
       }
       case GET_ITEM_BY_ID: 
       let {items, itemsByCategory, itemsByComponent} = state;
@@ -60,7 +73,8 @@ const itemsReducer = (state = initialState, action) => {
          items,
          itemsByComponent, 
          itemsByCategory,
-         totalItemsCount: action.payload.count
+         totalItemsCount: action.payload.count,
+         isLoading: false
       }
       default: return state
    }
