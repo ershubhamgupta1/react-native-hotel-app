@@ -1,39 +1,45 @@
-import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS, GET_ITEMS_COUNT, GET_ITEM_BY_ID } from './actionTypes';
+import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS, GET_ITEMS_COUNT, GET_ITEM_BY_ID, SEARCH_ITEM_BY_TEXT } from './actionTypes';
 import { collection, query, where, getDocs, doc, documentId, setDoc, updateDoc, getCountFromServer, writeBatch } from "firebase/firestore";
 import { db } from '../../firebase/config.js';
 
 const addCategoryAndComponentsInItem = async(querySnapshot)=>{
-  let items = [];
-  if(querySnapshot.empty) return [];
-  const itemsByCategory = {};
-  const categoryIds = [];
-  querySnapshot.forEach((doc) => {
-    const componentIds = [];
-    const components = [];
-    doc.get('components') && doc.get('components').forEach(comp=>{
-      componentIds.push(comp.id.id);
-      components.push({id: comp.id.id, quantity: comp.quantity})
-    })
-    categoryIds.push(doc.get('categoryId').id);
-    if(!itemsByCategory[doc.get('categoryId').id]){
-      itemsByCategory[doc.get('categoryId').id] = {items : [{id: doc.id, ...doc.data(), categoryId: doc.get('categoryId').id, componentIds, components}]};
-    } else {
-      itemsByCategory[doc.get('categoryId').id].items.push({id: doc.id, ...doc.data(), categoryId: doc.get('categoryId').id, componentIds, components});
-    }
-  });
+  try{
+    let items = [];
+    if(querySnapshot.empty) return [];
+    const itemsByCategory = {};
+    const categoryIds = [];
+    querySnapshot.forEach((doc) => {
+      const componentIds = [];
+      const components = [];
+      doc.get('components') && doc.get('components').forEach(comp=>{
+        componentIds.push(comp.id.id);
+        components.push({id: comp.id.id, quantity: comp.quantity})
+      })
+      if(categoryIds.indexOf(doc.get('categoryId').id) === -1) categoryIds.push(doc.get('categoryId').id);
+      if(!itemsByCategory[doc.get('categoryId').id]){
+        itemsByCategory[doc.get('categoryId').id] = {items : [{id: doc.id, ...doc.data(), categoryId: doc.get('categoryId').id, componentIds, components}]};
+      } else {
+        itemsByCategory[doc.get('categoryId').id].items.push({id: doc.id, ...doc.data(), categoryId: doc.get('categoryId').id, componentIds, components});
+      }
+    });
 
-  const categoryQuery = query(collection(db, "categories"), where(documentId(), "in", categoryIds));
-  const categoryQuerySnapshot = await getDocs(categoryQuery);
-  categoryQuerySnapshot.forEach((doc) => {
-    const catItems = itemsByCategory[doc.id].items;
-    for(let i=0; i < catItems.length; i++){
-      catItems[i].category = {id: doc.id, ...doc.data()};
+    if(categoryIds && categoryIds.length > 0){
+      const categoryQuery = query(collection(db, "categories"), where(documentId(), "in", categoryIds));
+      const categoryQuerySnapshot = await getDocs(categoryQuery);
+      categoryQuerySnapshot.forEach((doc) => {
+        const catItems = itemsByCategory[doc.id].items;
+        for(let i=0; i < catItems.length; i++){
+          catItems[i].category = {id: doc.id, ...doc.data()};
+        }
+        itemsByCategory[doc.id] = catItems;
+        items = items.concat(catItems);
+      });
     }
-    itemsByCategory[doc.id] = catItems;
-    items = items.concat(catItems);
-  });
-
-  return items;
+    return items;
+  }
+  catch(err){
+    throw err;
+  }
 }
 
 export const getItems = () => {
@@ -55,16 +61,11 @@ export const getItems = () => {
 };
 
 export const getItemsByCategory = (categoryId) => {
-
   try {
     return async dispatch => {
-      const categoryDocRef = doc(db, "categories", categoryId);
-      const q = query(collection(db, "items"), where("categoryId", "==", categoryDocRef));
-
+      const categoryDocRef = await doc(db, "categories", categoryId.toString());
+      const q = await query(collection(db, "items"), where("categoryId", "==", categoryDocRef));
       const querySnapshot = await getDocs(q);
-      // querySnapshot.forEach((doc) => {
-      //     items.push({id: doc.id, ...doc.data()});
-      //   });
       const docs = querySnapshot.docs;
       const items = await addCategoryAndComponentsInItem(docs);
       dispatch({
@@ -73,6 +74,7 @@ export const getItemsByCategory = (categoryId) => {
       });
     };
   } catch (error) {
+    console.log('errpr=========', error);
       alert(error);
   }
 };
@@ -147,10 +149,11 @@ export const createUpdateItem = (payload, callback) => {
       if(payload.categoryId) payload.categoryId = doc(db, 'categories/' + payload.categoryId)
       if(payload.isNewRec) {
         delete payload.isNewRec;
-        await setDoc(docRef, payload);
+        const res = await setDoc(docRef, payload);
       }
       else {
         await updateDoc(docRef, payload);
+        dispatch(getItemById(payload.id));
 
       }
       callback();
@@ -229,6 +232,24 @@ export const getItemById = (id) => {
       });
     };
   } catch (error) {
+      alert(error);
+  }
+};
+
+export const searchItemsByText = (keyword) => {
+  try {
+    return async dispatch => {
+      const q = query(collection(db, "items"), where('keywords', "array-contains", keyword));
+      const querySnapshot = await getDocs(q);
+      const docs = querySnapshot.docs;
+      const items = await addCategoryAndComponentsInItem(docs);
+      dispatch({
+        type: SEARCH_ITEM_BY_TEXT,
+        payload: items,
+      });
+    };
+  } catch (error) {
+      console.log('got error in searchItemsByText items------', error);
       alert(error);
   }
 };

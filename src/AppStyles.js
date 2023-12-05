@@ -19,7 +19,7 @@ export const RecipeCard = StyleSheet.create({
     marginLeft: RECIPE_ITEM_MARGIN,
     marginTop: 20,
     width: (SCREEN_WIDTH - (recipeNumColums + 1) * RECIPE_ITEM_MARGIN) / recipeNumColums,
-    height: RECIPE_ITEM_HEIGHT + 75,
+    minHeight: RECIPE_ITEM_HEIGHT + 75,
     borderColor: '#cccccc',
     borderWidth: 0.5,
     borderRadius: 15
@@ -33,7 +33,8 @@ export const RecipeCard = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: 17,
+    fontSize: 14,
+    // flexShrink: 1,
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#444444',

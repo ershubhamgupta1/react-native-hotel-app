@@ -4,6 +4,8 @@ export const GET_ITEMS_BY_COMPONENT = 'GET_ITEMS_BY_COMPONENT';
 export const GET_EMPTY_ITEMS = 'GET_EMPTY_ITEMS';
 export const GET_ITEMS_COUNT = 'GET_ITEMS_COUNT';
 export const GET_ITEM_BY_ID = 'GET_ITEM_BY_ID';
+export const SEARCH_ITEM_BY_TEXT = 'SEARCH_ITEM_BY_TEXT';
+
 
 
 

@@ -94,12 +94,12 @@ const CreateItemScreen = (props) => {
       photo_url,
       description,
       photosArray,
-      quantity: Number(quantity),
-      minQuantityForAlert: Number(minQuantityForAlert),
+      quantity: quantity ? Number(quantity) : 0,
+      minQuantityForAlert: minQuantityForAlert ? Number(minQuantityForAlert) : 0,
       quantityType,
       time,
       categoryId,
-      costPerUnit: Number(costPerUnit),
+      costPerUnit: costPerUnit ? Number(costPerUnit) : 0,
       sellingPricePerUnit: sellingPricePerUnit ? Number(sellingPricePerUnit) : 0,
     };
     if(!id) payload.id = totalItemsCount+1;
