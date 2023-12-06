@@ -4,6 +4,7 @@ import styles from "./styles";
 import MenuImage from "../../components/MenuImage/MenuImage";
 import {useSelector, useDispatch} from 'react-redux';
 import {getCategories} from '../../redux/categories/actions';
+import LoadingBar from "../../components/LoadingBar/LoadingBar";
 
 
 export default function CategoriesScreen(props) {
@@ -64,12 +65,18 @@ export default function CategoriesScreen(props) {
 
   return (
     <View>
-      <FlatList 
-        refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} 
-        data={categories} 
-        renderItem={renderCategory} 
-        keyExtractor={(item) => `${item.id}`} 
-      />
+      {isLoading &&
+        <LoadingBar />
+      }
+      {
+        !isLoading && 
+        <FlatList 
+          refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} 
+          data={categories} 
+          renderItem={renderCategory} 
+          keyExtractor={(item) => `${item.id}`} 
+        />
+      }
     </View>
   );
 }

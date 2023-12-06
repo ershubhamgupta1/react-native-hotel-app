@@ -1,9 +1,10 @@
 import React, { useLayoutEffect, useEffect } from "react";
-import { FlatList, Text, View, TouchableHighlight, Image, ActivityIndicator } from "react-native";
+import { FlatList, Text, View, TouchableHighlight, Image } from "react-native";
 import styles from "./styles";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useSelector, useDispatch} from 'react-redux';
 import {getItemsByCategory} from '../../redux/items/actions';
+import LoadingBar from "../../components/LoadingBar/LoadingBar";
 
 export default function RecipesListScreen(props) {
   const { navigation, route } = props;
@@ -17,7 +18,6 @@ export default function RecipesListScreen(props) {
   }, []);
 
 
-  const item = route?.params?.category;
   useLayoutEffect(() => {
     navigation.setOptions({
       title: route.params?.title,
@@ -36,7 +36,6 @@ export default function RecipesListScreen(props) {
   }, []);
 
   const onPressRecipe = (item) => {
-    // navigation.navigate("Recipe", { item });
     navigation.navigate("Recipe", { itemId: item.id });
   };
   const renderRecipes = ({ item }) => (
@@ -52,9 +51,7 @@ export default function RecipesListScreen(props) {
   return (
     <View>
       {isLoading &&
-      <View style={{justifyContent: 'center', width : 600, height: 600}}>
-        <ActivityIndicator />
-      </View>
+       <LoadingBar /> 
       } 
       {
         !isLoading &&

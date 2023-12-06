@@ -1,20 +1,17 @@
 import React, { useLayoutEffect, useEffect } from "react";
-import { FlatList, Text, View, TouchableHighlight, Image, RefreshControl, ActivityIndicator, Dimensions } from "react-native";
+import { FlatList, Text, View, TouchableHighlight, Image, RefreshControl } from "react-native";
 import styles from "./styles";
+
 import MenuImage from "../../components/MenuImage/MenuImage";
 import {useSelector, useDispatch} from 'react-redux';
 import {getItems} from '../../redux/items/actions';
+import LoadingBar from "../../components/LoadingBar/LoadingBar";
 
-import { useHeaderHeight } from '@react-navigation/elements';
-const { width, height } = Dimensions.get('window');
-// orientation must fixed
-const SCREEN_HEIGHT = width > height ? width : height;
 
 export default function HomeScreen(props) {
   const { navigation } = props;
   const { items, isLoading } = useSelector(state => state.itemsReducer);
   const dispatch = useDispatch();
-  const headerHeight = useHeaderHeight();
   const [refreshing, setRefreshing] = React.useState(false);
 
   const fetchItems = () => dispatch(getItems());
@@ -46,7 +43,6 @@ export default function HomeScreen(props) {
   }, []);
 
   const onPressRecipe = (item) => {
-    // navigation.navigate("Recipe", { item });
     navigation.navigate("Recipe", { itemId: item.id });
   };
 
@@ -62,9 +58,7 @@ export default function HomeScreen(props) {
   return (
     <View>
       {isLoading &&
-        <View style={{justifyContent: 'center', alignItems:'center', height: SCREEN_HEIGHT-headerHeight}}>
-          <ActivityIndicator />
-        </View>
+        <LoadingBar />
       }
       {
         !isLoading &&
