@@ -1,9 +1,7 @@
 import React, { useLayoutEffect, useEffect } from "react";
 import {Text, View, StyleSheet, ScrollView,  } from "react-native";
 import {useSelector, useDispatch} from 'react-redux';
-import BackButton from "../../components/BackButton/BackButton";
 import {getItems} from '../../redux/items/actions';
-import { Table, Row } from 'react-native-table-component';
 import MenuImage from "../../components/MenuImage/MenuImage";
 
 export default function ItemCostCalculateScreen(props) {
@@ -105,7 +103,7 @@ export default function ItemCostCalculateScreen(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={{textAlign: 'center', fontSize: '20', fontWeight: 'bold'}}>Total stock value : {totalCost} Rs</Text>
+      <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold'}}>Total stock value : {totalCost} Rs</Text>
       <View style={styles.container}>
       <View>
         {renderTableHeader()}
@@ -114,29 +112,6 @@ export default function ItemCostCalculateScreen(props) {
         {renderTableData()}
       </ScrollView>
       </View>
-    {/* <ScrollView horizontal={true}>
-      <View>
-        <Table borderStyle={{borderWidth: 1, borderColor: '#C1C0B9'}}>
-          <Row data={colsLabel} flexArr={[5, 3, 2, 1, 1]} style={styles.header} textStyle={{...styles.text, fontWeight: 'bold'}}/>
-        </Table>
-        <ScrollView style={styles.dataWrapper}>
-          <Table borderStyle={{borderWidth: 1, borderColor: '#C1C0B9', backgroundColor: 'red'}}>
-            {
-              tableData.map((rowData, index) => (
-                <Row
-                  key={index}
-                  data={rowData}
-                  // widthArr={widthArr}
-                  flexArr={[5, 3, 2, 1, 1]}
-                  style={[styles.row, index%2 && {backgroundColor: '#F7F6E7'}]}
-                  textStyle={styles.text}
-                />
-              ))
-            }
-          </Table>
-        </ScrollView>
-      </View>
-    </ScrollView> */}
   </View>  
   );
 }

@@ -50,7 +50,7 @@ export default function CategoriesScreen(props) {
     const title = item.name;
     const category = item;
     if(!item.itemCount) alert('No item found!') 
-    else navigation.navigate("RecipesList", { category, title });
+    else navigation.navigate("ItemsList", { category, title });
   };
 
   const renderCategory = ({ item }) => (

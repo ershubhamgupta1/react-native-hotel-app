@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { RecipeCard } from '../../AppStyles';
+import { ItemCard } from '../../AppStyles';
 
 const styles = StyleSheet.create({
   photoComponent: {
@@ -14,10 +14,10 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontWeight: 'bold'
   },
-  container: RecipeCard.container,
-  photo: RecipeCard.photo,
-  title: RecipeCard.title,
-  category: RecipeCard.category
+  container: ItemCard.container,
+  photo: ItemCard.photo,
+  title: ItemCard.title,
+  category: ItemCard.category
 });
 
 export default styles;

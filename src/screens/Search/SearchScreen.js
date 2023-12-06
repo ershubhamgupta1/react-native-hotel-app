@@ -50,12 +50,12 @@ export default function SearchScreen(props) {
     }
   };
 
-  const onPressRecipe = (item) => {
-    navigation.navigate("Recipe", { itemId: item.id });
+  const onPressItem = (item) => {
+    navigation.navigate("Item", { itemId: item.id });
   };
 
-  const renderRecipes = ({ item }) => (
-    <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressRecipe(item)}>
+  const renderItem = ({ item }) => (
+    <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressItem(item)}>
       <View style={styles.container}>
         <Image style={styles.photo} source={{ uri: item.photo_url || null }} />
         <Text style={styles.title}>{item.title}</Text>
@@ -67,7 +67,7 @@ export default function SearchScreen(props) {
 
   return (
     <View>
-      <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={value.length > 0 ? searchedItems : []} renderItem={renderRecipes} keyExtractor={(item) => `${item.id}`} />
+      <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={value.length > 0 ? searchedItems : []} renderItem={renderItem} keyExtractor={(item) => `${item.id}`} />
     </View>
   );
 }

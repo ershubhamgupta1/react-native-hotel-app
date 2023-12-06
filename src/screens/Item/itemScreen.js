@@ -17,7 +17,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const { width: viewportWidth } = Dimensions.get("window");
 
-export default function RecipeScreen(props) {
+export default function ItemScreen(props) {
   const { navigation, route } = props;
   const itemId = route.params?.itemId;
 
@@ -87,12 +87,12 @@ export default function RecipeScreen(props) {
           />
         </View>
       </View>
-      <View style={styles.infoRecipeContainer}>
-        <Text style={styles.infoRecipeName}>{title}</Text>
+      <View style={styles.itemContainer}>
+        <Text style={styles.infoItemName}>{title}</Text>
         <View style={styles.infoContainer}>
           <TouchableHighlight
             onPress={() =>
-              navigation.navigate("RecipesList", { category, title: catTitle })
+              navigation.navigate("ItemsList", { category, title: catTitle })
             }
           >
             <Text style={styles.category}>
@@ -106,13 +106,13 @@ export default function RecipeScreen(props) {
             style={styles.infoPhoto}
             source={require("../../../assets/icons/time.png")}
           />
-          <Text style={styles.infoRecipe}>{time} </Text>
+          <Text style={styles.infoItem}>{time} </Text>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoRecipe}>Cost Price: <FontAwesome name={'rupee'} color={'black'} size={12} />{costPerUnit}/{quantityType} </Text>
+          <Text style={styles.infoItem}>Cost Price: <FontAwesome name={'rupee'} color={'black'} size={12} />{costPerUnit}/{quantityType} </Text>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoRecipe}>Selling Price : <FontAwesome name={'rupee'} color={'black'} size={12} />{sellingPricePerUnit}/{quantityType} </Text>
+          <Text style={styles.infoItem}>Selling Price : <FontAwesome name={'rupee'} color={'black'} size={12} />{sellingPricePerUnit}/{quantityType} </Text>
         </View>
 
         <View style={styles.infoContainer}>
@@ -144,7 +144,7 @@ export default function RecipeScreen(props) {
         </View>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.infoDescriptionRecipe}>{description}</Text>
+          <Text style={styles.infoDescriptionItem}>{description}</Text>
         </View>
       </View>
     </ScrollView>

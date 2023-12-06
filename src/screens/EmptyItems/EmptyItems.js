@@ -32,13 +32,12 @@ export default function EmptyItemScreen(props) {
     });
   }, []);
 
-  const onPressRecipe = (item) => {
-    // navigation.navigate("Recipe", { item });
-    navigation.navigate("Recipe", { itemId: item.id });
+  const onPressItem = (item) => {
+    navigation.navigate("Item", { itemId: item.id });
   };
 
-  const renderRecipes = ({ item }) => (
-    <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressRecipe(item)}>
+  const renderItem = ({ item }) => (
+    <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressItem(item)}>
       <View style={styles.container}>
         <Image style={styles.photo} source={{ uri: item.photo_url || null }} />
         <Text style={styles.title}>{item.title}</Text>
@@ -55,7 +54,7 @@ export default function EmptyItemScreen(props) {
   )  
   return (
     <View>
-      <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={emptyItems} renderItem={renderRecipes} keyExtractor={(item) => `${item.id}`} />
+      <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={emptyItems} renderItem={renderItem} keyExtractor={(item) => `${item.id}`} />
     </View>
   );
 }

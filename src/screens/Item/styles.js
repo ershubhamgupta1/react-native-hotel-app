@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginHorizontal: 0
   },
-  infoRecipeContainer: {
+  itemContainer: {
     flex: 1,
     margin: 25,
     marginTop: 20,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     width: 20,
     marginRight: 0
   },
-  infoRecipe: {
+  infoItem: {
     fontSize: 14,
     fontWeight: 'bold',
     marginLeft: 5,
@@ -73,13 +73,13 @@ const styles = StyleSheet.create({
     margin: 10,
     color: '#2cd18a'
   },
-  infoDescriptionRecipe: {
+  infoDescriptionItem: {
     textAlign: 'left',
     fontSize: 16,
     marginTop: 30,
     margin: 15
   },
-  infoRecipeName: {
+  infoItemName: {
     fontSize: 28,
     margin: 10,
     fontWeight: 'bold',

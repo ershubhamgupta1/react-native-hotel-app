@@ -6,7 +6,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {getItemsByCategory} from '../../redux/items/actions';
 import LoadingBar from "../../components/LoadingBar/LoadingBar";
 
-export default function RecipesListScreen(props) {
+export default function ItemsListScreen(props) {
   const { navigation, route } = props;
   const { itemsByCategory, isLoading } = useSelector(state => state.itemsReducer);
   const dispatch = useDispatch();
@@ -35,11 +35,11 @@ export default function RecipesListScreen(props) {
     });
   }, []);
 
-  const onPressRecipe = (item) => {
-    navigation.navigate("Recipe", { itemId: item.id });
+  const onPressItem = (item) => {
+    navigation.navigate("Item", { itemId: item.id });
   };
-  const renderRecipes = ({ item }) => (
-    <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressRecipe(item)}>
+  const renderItem = ({ item }) => (
+    <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressItem(item)}>
       <View style={styles.container}>
         <Image style={styles.photo} source={{ uri: item.photo_url || null }} />
         <Text style={styles.title}>{item.title}</Text>
@@ -55,7 +55,7 @@ export default function RecipesListScreen(props) {
       } 
       {
         !isLoading &&
-        <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={itemsByCategory} renderItem={renderRecipes} keyExtractor={(item) => `${item.id}`} />
+        <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={itemsByCategory} renderItem={renderItem} keyExtractor={(item) => `${item.id}`} />
       }
     </View>
   );
