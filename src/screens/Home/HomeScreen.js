@@ -59,16 +59,15 @@ export default function HomeScreen(props) {
       </View>
     </TouchableHighlight>
   );
-
   return (
     <View>
-      {!isLoading &&
+      {isLoading &&
         <View style={{justifyContent: 'center', alignItems:'center', height: SCREEN_HEIGHT-headerHeight}}>
           <ActivityIndicator />
         </View>
       }
       {
-        isLoading &&
+        !isLoading &&
         <FlatList 
           refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} 
           vertical 
