@@ -51,13 +51,13 @@ export default function RecipesListScreen(props) {
   );
   return (
     <View>
-      {!isLoading &&
+      {isLoading &&
       <View style={{justifyContent: 'center', width : 600, height: 600}}>
         <ActivityIndicator />
       </View>
       } 
       {
-        isLoading &&
+        !isLoading &&
         <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={itemsByCategory} renderItem={renderRecipes} keyExtractor={(item) => `${item.id}`} />
       }
     </View>

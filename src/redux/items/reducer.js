@@ -1,5 +1,5 @@
 import { GET_ITEMS, GET_ITEMS_BY_CATEGORY, GET_ITEMS_BY_COMPONENT, GET_EMPTY_ITEMS,
-GET_ITEMS_COUNT, GET_ITEM_BY_ID, SEARCH_ITEM_BY_TEXT, GET_ITEMS_BY_CATEGORY_LOADING } from './actionTypes';
+GET_ITEMS_COUNT, GET_ITEM_BY_ID, SEARCH_ITEM_BY_TEXT, GET_ITEMS_BY_CATEGORY_LOADING, GET_ITEMS_LOADING } from './actionTypes';
 
 //initializing state
 const initialState = {
@@ -16,6 +16,12 @@ const itemsReducer = (state = initialState, action) => {
          ...state, 
          items: action.payload,
          isLoading: false
+      }
+      case GET_ITEMS_LOADING: 
+      return {
+         ...state, 
+         isLoading: true,
+         items: action.payload
       }
       case GET_ITEMS_BY_CATEGORY_LOADING: 
       return {

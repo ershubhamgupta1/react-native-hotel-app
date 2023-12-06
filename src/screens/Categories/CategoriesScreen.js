@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useEffect } from "react";
-import { FlatList, Text, View, Image, TouchableHighlight } from "react-native";
+import { FlatList, Text, View, Image, TouchableHighlight, RefreshControl } from "react-native";
 import styles from "./styles";
 import MenuImage from "../../components/MenuImage/MenuImage";
 import {useSelector, useDispatch} from 'react-redux';
@@ -8,13 +8,24 @@ import {getCategories} from '../../redux/categories/actions';
 
 export default function CategoriesScreen(props) {
   const { navigation } = props;
-  const {categories} = useSelector(state => state.categoriesReducer);
+  const {categories, isLoading} = useSelector(state => state.categoriesReducer);
   const dispatch = useDispatch();
+  const [refreshing, setRefreshing] = React.useState(false);
   const fetchCategories = () => dispatch(getCategories());
   
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchCategories();
+  }, []);
+
+  useEffect(()=>{
+    if(!isLoading) setRefreshing(false);
+  }, [isLoading]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitleStyle: {
@@ -47,14 +58,18 @@ export default function CategoriesScreen(props) {
         <Image style={styles.categoriesPhoto} alt="Item Image" source={{ uri: item.photo_url || null }} />
         <Text style={styles.categoriesName}>{item.name}</Text>
         <Text style={styles.categoriesInfo}>{item.itemCount} items</Text>
-        {/* <Text style={styles.categoriesInfo}>{getNumberOfRecipes(item.id)} items</Text> */}
       </View>
     </TouchableHighlight>
   );
 
   return (
     <View>
-      <FlatList data={categories} renderItem={renderCategory} keyExtractor={(item) => `${item.id}`} />
+      <FlatList 
+        refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} 
+        data={categories} 
+        renderItem={renderCategory} 
+        keyExtractor={(item) => `${item.id}`} 
+      />
     </View>
   );
 }

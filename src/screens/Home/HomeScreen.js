@@ -1,16 +1,33 @@
 import React, { useLayoutEffect, useEffect } from "react";
-import { FlatList, Text, View, TouchableHighlight, Image } from "react-native";
+import { FlatList, Text, View, TouchableHighlight, Image, RefreshControl, ActivityIndicator, Dimensions } from "react-native";
 import styles from "./styles";
 import MenuImage from "../../components/MenuImage/MenuImage";
 import {useSelector, useDispatch} from 'react-redux';
 import {getItems} from '../../redux/items/actions';
 
+import { useHeaderHeight } from '@react-navigation/elements';
+const { width, height } = Dimensions.get('window');
+// orientation must fixed
+const SCREEN_HEIGHT = width > height ? width : height;
+
 export default function HomeScreen(props) {
   const { navigation } = props;
-  const { items } = useSelector(state => state.itemsReducer);
+  const { items, isLoading } = useSelector(state => state.itemsReducer);
   const dispatch = useDispatch();
+  const headerHeight = useHeaderHeight();
+  const [refreshing, setRefreshing] = React.useState(false);
+
   const fetchItems = () => dispatch(getItems());
   
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchItems();
+  }, []);
+
+  useEffect(()=>{
+    if(!isLoading) setRefreshing(false);
+  }, [isLoading]);
+
   useEffect(() => {
     fetchItems();
   }, []);
@@ -45,7 +62,24 @@ export default function HomeScreen(props) {
 
   return (
     <View>
-      <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={items} renderItem={renderRecipes} keyExtractor={(item) => `${item.id}`} />
+      {!isLoading &&
+        <View style={{justifyContent: 'center', alignItems:'center', height: SCREEN_HEIGHT-headerHeight}}>
+          <ActivityIndicator />
+        </View>
+      }
+      {
+        isLoading &&
+        <FlatList 
+          refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} 
+          vertical 
+          showsVerticalScrollIndicator={false} 
+          numColumns={2} 
+          data={items} 
+          renderItem={renderRecipes} 
+          keyExtractor={(item) => `${item.id}`} 
+        />
+      } 
+
     </View>
   );
 }

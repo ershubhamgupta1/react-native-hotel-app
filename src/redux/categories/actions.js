@@ -1,4 +1,4 @@
-import { GET_CATEGORIES } from './actionTypes';
+import { GET_CATEGORIES, GET_CATEGORIES_LOADING } from './actionTypes';
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../../firebase/config.js';
 
@@ -12,7 +12,10 @@ import { db } from '../../firebase/config.js';
 export const getCategories = () => {
     try {
       return async dispatch => {
-        // const q = query(collection(db, "categories"), where("capital", "==", true));
+        dispatch({
+          type: GET_CATEGORIES_LOADING,
+          payload: {isLoading: true},
+        });
         const q = query(collection(db, "categories"));
         const querySnapshot = await getDocs(q);
         const categories = [];

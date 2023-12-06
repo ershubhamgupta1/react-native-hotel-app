@@ -1,6 +1,7 @@
 import React, {  useCallback, useState, useLayoutEffect, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { View, StyleSheet } from 'react-native';
+import MenuImage from "../../components/MenuImage/MenuImage";
 
 import {Input, Button} from 'react-native-elements'
 import SelectDropdown from '../../components/DropDown/DropDown'
@@ -22,12 +23,32 @@ const FormScreen = (props) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'Create Order',
       headerTitleStyle: {
-        fontSize: 16,
+        fontWeight: "bold",
+        textAlign: "center",
+        alignSelf: "center",
+        flex: 1,
       },
+      title: 'Create Order',
+      headerLeft: () => (
+        <MenuImage
+          onPress={() => {
+            navigation.openDrawer();
+          }}
+        />
+      ),
+      headerRight: () => <View />,
     });
   }, []);
+
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     title: 'Create Order',
+  //     headerTitleStyle: {
+  //       fontSize: 16,
+  //     },
+  //   });
+  // }, []);
 
   const handleSubmit = useCallback(() => {
     const {id: itemId, components} = item;
