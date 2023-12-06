@@ -4,10 +4,10 @@ import styles from "./styles";
 import {useSelector, useDispatch} from 'react-redux';
 import {getItemsByComponent} from '../../redux/items/actions';
 
-export default function IngredientScreen(props) {
+export default function ComponentScreen(props) {
   const { navigation, route } = props;
 
-  const {id, name, photo_url} = route.params?.ingredient || {};
+  const {id, name, photo_url} = route.params?.component || {};
   const componentUrl = photo_url;
   const componentName = name;
 

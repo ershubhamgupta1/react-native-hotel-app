@@ -74,9 +74,9 @@ function MainNavigator() {
         <Stack.Screen name='Categories' component={CategoriesScreen}/>
         <Stack.Screen name='Recipe' component={RecipeScreen}/>
         <Stack.Screen name='RecipesList' component={RecipesListScreen} />
-        <Stack.Screen name='Ingredient' component={ComponentScreen} />
+        <Stack.Screen name='Component' component={ComponentScreen} />
         <Stack.Screen name='Search' component={SearchScreen} />
-        <Stack.Screen name='IngredientsDetails' component={ComponentsDetailsScreen} />
+        <Stack.Screen name='ComponentDetails' component={ComponentsDetailsScreen} />
         <Stack.Screen name='createOrder' component={createOrderScreen} />
         <Stack.Screen name='createItem' component={CreateItemScreen} />
         <Stack.Screen name='EmptyItems' component={EmptyItemsScreen} />

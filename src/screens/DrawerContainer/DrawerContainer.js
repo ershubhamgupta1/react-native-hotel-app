@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import styles from "./styles";
 import MenuButton from "../../components/MenuButton/MenuButton";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 export default function DrawerContainer(props) {
@@ -13,7 +14,7 @@ export default function DrawerContainer(props) {
       <View style={styles.container}>
         <MenuButton
           title="HOME"
-          source={require("../../../assets/icons/home.png")}
+          icon={<FontAwesome name="home" size={20}/>}
           onPress={() => {
             navigation.navigate("Home");
             navigation.closeDrawer();
@@ -21,7 +22,7 @@ export default function DrawerContainer(props) {
         />
         <MenuButton
           title="CATEGORIES"
-          source={require("../../../assets/icons/category.png")}
+          icon={<FontAwesome name="list" size={20}/>}
           onPress={() => {
             navigation.navigate("Categories");
             navigation.closeDrawer();
@@ -29,7 +30,7 @@ export default function DrawerContainer(props) {
         />
         <MenuButton
           title="SEARCH"
-          source={require("../../../assets/icons/search.png")}
+          icon={<FontAwesome name="search" size={20}/>}
           onPress={() => {
             navigation.navigate("Search");
             navigation.closeDrawer();
@@ -37,7 +38,7 @@ export default function DrawerContainer(props) {
         />
         <MenuButton
           title="STOCK LIST"
-          source={require("../../../assets/icons/category.png")}
+          icon={<FontAwesome name="list" size={20}/>}
           onPress={() => {
             navigation.navigate("stockList");
             navigation.closeDrawer();
@@ -45,7 +46,7 @@ export default function DrawerContainer(props) {
         />
         <MenuButton
           title="OUT OF STOCK"
-          source={require("../../../assets/icons/warning.png")}
+          icon={<FontAwesome name="battery-empty" size={20}/>}
           onPress={() => {
             navigation.navigate("EmptyItems");
             navigation.closeDrawer();
@@ -53,7 +54,7 @@ export default function DrawerContainer(props) {
         />
         <MenuButton
           title="CREATE ORDER"
-          source={require("../../../assets/icons/category.png")}
+          icon={<FontAwesome name="plus-circle" size={20}/>}
           onPress={() => {
             navigation.navigate("createOrder");
             navigation.closeDrawer();
@@ -61,7 +62,7 @@ export default function DrawerContainer(props) {
         />
         <MenuButton
           title="Logout"
-          source={require("../../../assets/icons/logout.png")}
+          icon={<FontAwesome name="sign-out" size={20}/>}
           onPress={() => {
             const auth = getAuth();
             signOut(auth);

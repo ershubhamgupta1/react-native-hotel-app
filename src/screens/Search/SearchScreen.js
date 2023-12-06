@@ -46,7 +46,7 @@ export default function SearchScreen(props) {
     setValue(text);
     if (text == "") {
     } else if(text.length >= 3) {
-      fetchItems(text);
+      fetchItems(text.toLowerCase().trim());
     }
   };
 

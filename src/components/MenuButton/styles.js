@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-start'
+    alignItems: 'center',
   },
   btnIcon: {
     height: 25,
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   btnText: {
     fontSize: 16,
     marginLeft: 10,
-    marginTop: 2
+    // marginTop: 2
   }
 });
 

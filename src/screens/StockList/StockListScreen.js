@@ -65,7 +65,7 @@ export default function ItemCostCalculateScreen(props) {
           {
             colsLabel.map((col, i)=>{
               return (
-                <View style={{flex: flexArr[i]}}>
+                <View key={i} style={{flex: flexArr[i]}}>
                   <Text> {col} </Text>
                 </View>
               )

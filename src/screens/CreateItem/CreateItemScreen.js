@@ -85,7 +85,7 @@ const CreateItemScreen = (props) => {
 
   const handleSubmit = useCallback(() => {
     const photosArray = [];
-    const { id, title, photo_url='', photo_url1, photo_url2, photo_url3, quantity, quantityType, time='', categoryId, description='', costPerUnit, sellingPricePerUnit, minQuantityForAlert } = form;
+    const { id, title, photo_url='', photo_url1, photo_url2, photo_url3, quantity, homeStoreQuantity, quantityType, time='', categoryId, description='', costPerUnit, sellingPricePerUnit, minQuantityForAlert } = form;
     if(photo_url) photosArray.push(photo_url);
     if(photo_url1) photosArray.push(photo_url1);
     if(photo_url2) photosArray.push(photo_url2);
@@ -98,7 +98,7 @@ const CreateItemScreen = (props) => {
       description,
       photosArray,
       quantity: quantity ? Number(quantity) : 0,
-      homeStoreQuantity: homeStoreQuantity ? Number(quanhomeStoreQuantitytity) : 0,
+      homeStoreQuantity: homeStoreQuantity ? Number(homeStoreQuantity) : 0,
       minQuantityForAlert: minQuantityForAlert ? Number(minQuantityForAlert) : 0,
       quantityType,
       time,
@@ -131,7 +131,7 @@ const CreateItemScreen = (props) => {
         <Input disabled={!form.quantityType} label='Photo Url 2' inputMode='text' value={form.photo_url2} returnKeyType='done' onChangeText={onChangeField('photo_url2')}/>
         <Input disabled={!form.quantityType} label='Photo Url 3' inputMode='text' value={form.photo_url3} returnKeyType='done' onChangeText={onChangeField('photo_url3')}/>
         <Input disabled={!form.quantityType} label='Description' inputMode='text' value={form.description} returnKeyType='done' onChangeText={onChangeField('description')}/>
-        <Button disabled={!form.title || !form.quantity} title="Save" type='outline' onPress={()=>{handleSubmit()}} titleStyle={styles.buttonTitleStyle} buttonStyle={styles.buttonStyle} />
+        <Button disabled={!form.title || !form.quantity|| !form.categoryId} title="Save" type='outline' onPress={()=>{handleSubmit()}} titleStyle={styles.buttonTitleStyle} buttonStyle={styles.buttonStyle} />
       </SafeAreaView>
     </ScrollView>
   );

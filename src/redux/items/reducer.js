@@ -21,7 +21,6 @@ const itemsReducer = (state = initialState, action) => {
       return {
          ...state, 
          isLoading: true,
-         items: action.payload
       }
       case GET_ITEMS_BY_CATEGORY_LOADING: 
       return {
@@ -72,7 +71,15 @@ const itemsReducer = (state = initialState, action) => {
       itemsByCategory = itemsByCategory.map(item=>{
          if(item.id === action.payload.id) return action.payload;
          else return item;
-      })
+      });
+      const itemIndexByComp = itemsByComponent.findIndex(item=> item.id === action.payload.id);
+      if(itemIndexByComp === -1) itemsByComponent.push(action.payload);
+
+      const itemIndexByCat = itemsByCategory.findIndex(item=> item.id === action.payload.id);
+      if(itemIndexByCat === -1) itemsByCategory.push(action.payload);
+
+      const itemIndex = items.findIndex(item=> item.id === action.payload.id);
+      if(itemIndex === -1) items.push(action.payload);
 
       return {
          ...state,

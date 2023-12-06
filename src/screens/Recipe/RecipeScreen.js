@@ -12,7 +12,7 @@ import {
 import styles from "./styles";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import BackButton from "../../components/BackButton/BackButton";
-import ViewIngredientsButton from "../../components/ViewButton/ViewButton";
+import ViewButton from "../../components/ViewButton/ViewButton";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const { width: viewportWidth } = Dimensions.get("window");
@@ -23,10 +23,10 @@ export default function RecipeScreen(props) {
 
   const { items } = useSelector(state => state.itemsReducer);
   const item = items && items.find(item => item.id == itemId);
-  
+ 
   const {componentIds, components, title, category, sellingPricePerUnit=0, costPerUnit=0, time,
     quantityType, photosArray, description} = item || {};
-  const catTitle = category.name;
+  const catTitle = category && category.name;
 
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -116,15 +116,15 @@ export default function RecipeScreen(props) {
         </View>
 
         <View style={styles.infoContainer}>
-          <ViewIngredientsButton
+          <ViewButton
             title='Components'
             onPress={() => {
-              navigation.navigate("IngredientsDetails", { itemId, componentIds, components, title });
+              navigation.navigate("ComponentDetails", { itemId, componentIds, components, title });
             }}
           />
         </View>
         <View style={styles.infoContainer}>
-          <ViewIngredientsButton
+          <ViewButton
             title='Update Item'
             onPress={() => {
               navigation.navigate("createItem", {item});
@@ -132,7 +132,7 @@ export default function RecipeScreen(props) {
           />
         </View>
         <View style={styles.infoContainer}>
-          <ViewIngredientsButton
+          <ViewButton
             title='Calculate Cost'
             onPress={() => {
               if(!componentIds || componentIds.length === 0) alert('Please add components firstly!');

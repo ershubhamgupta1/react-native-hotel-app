@@ -159,6 +159,7 @@ export const createUpdateItem = (payload, callback) => {
       if(payload.isNewRec) {
         delete payload.isNewRec;
         const res = await setDoc(docRef, payload);
+        dispatch(getItemById(payload.id));
       }
       else {
         await updateDoc(docRef, payload);

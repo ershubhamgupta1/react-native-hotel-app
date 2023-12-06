@@ -2,19 +2,15 @@ import { StyleSheet } from 'react-native';
 import { RecipeCard } from '../../AppStyles';
 
 const styles = StyleSheet.create({
-  titleIngredient: {
-    fontWeight: 'bold',
-    fontSize: 20
-  },
   photoComponent: {
     width: '100%',
     height: 250,
     alignSelf: 'center'
   },
-  ingredientInfo: {
+  componentInfo: {
     color: 'black',
-    margin: 10,
-    fontSize: 19,
+    marginLeft: 20,
+    fontSize: 16,
     textAlign: 'left',
     fontWeight: 'bold'
   },

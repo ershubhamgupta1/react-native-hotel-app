@@ -69,7 +69,7 @@ export default function ComponentsDetailsScreen(props) {
   }, []);
 
   const onPressComponent = (item) => {
-    navigation.navigate("Ingredient", { ingredient: item });
+    navigation.navigate("Component", { component: item });
   };
 
   const renderComponent = ({ item }) => {
