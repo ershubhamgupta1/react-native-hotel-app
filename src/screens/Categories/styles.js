@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
       ios: {
       },
       android: {
-        elevation: 3,
+        // elevation: 3,
       },
     }),
   },

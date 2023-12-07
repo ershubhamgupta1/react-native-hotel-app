@@ -22,13 +22,6 @@ export default function ItemCostCalculateScreen(props) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'Stock List',
-      headerTitleStyle: {
-        fontWeight: "bold",
-        textAlign: "center",
-        alignSelf: "center",
-        flex: 1,
-      },
       headerLeft: () => (
         <MenuImage
           onPress={() => {
@@ -53,8 +46,6 @@ export default function ItemCostCalculateScreen(props) {
     }
     tableData.push(rowData);
   }
-
-  const widthArr = [120, 40, 50, 70, 70];
 
   const renderTableHeader = ()=>{
     return (
@@ -124,6 +115,3 @@ const styles = StyleSheet.create({
   dataWrapper: { marginTop: -1 },
   row: { height: 80, backgroundColor: '#E7E6E1', display: 'flex', alignSelf: 'stretch', overflow: 'unset' }
 });
-
-// F7F6E7
-// E7E6E1

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
-import { app, db } from '../../firebase/config.js';
+import { db } from '../../firebase/config.js';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 

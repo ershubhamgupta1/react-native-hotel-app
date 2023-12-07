@@ -55,12 +55,6 @@ export default function ItemCostCalculateScreen(props) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: title,
-      headerTitleStyle: {
-        fontWeight: "bold",
-        textAlign: "center",
-        alignSelf: "center",
-        flex: 1,
-      },
       headerLeft: () => (
         <BackButton
           onPress={() => {

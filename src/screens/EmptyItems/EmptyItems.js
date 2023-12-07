@@ -27,7 +27,6 @@ export default function EmptyItemScreen(props) {
           }}
         />
       ),
-      title: 'Out of stock',
       headerRight: () => <View />,
     });
   }, []);

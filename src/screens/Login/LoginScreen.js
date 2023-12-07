@@ -2,9 +2,7 @@ import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
-import { db } from '../../firebase/config.js';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
 
 export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')

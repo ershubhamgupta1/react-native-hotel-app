@@ -65,9 +65,6 @@ const CreateItemScreen = (props) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: item && item.id ? 'Update Item' : 'Create Item',
-      headerTitleStyle: {
-        fontSize: 16,
-      },
       headerLeft: () => (
         <BackButton
           onPress={() => {

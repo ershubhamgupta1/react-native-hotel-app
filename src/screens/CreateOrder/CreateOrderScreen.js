@@ -23,13 +23,6 @@ const FormScreen = (props) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitleStyle: {
-        fontWeight: "bold",
-        textAlign: "center",
-        alignSelf: "center",
-        flex: 1,
-      },
-      title: 'Create Order',
       headerLeft: () => (
         <MenuImage
           onPress={() => {

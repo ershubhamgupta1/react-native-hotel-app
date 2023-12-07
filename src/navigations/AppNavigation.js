@@ -2,28 +2,36 @@ import React, {useEffect, useState} from 'react'
 import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
 import {createDrawerNavigator} from '@react-navigation/drawer' 
+
+import DrawerContainer from '../screens/DrawerContainer/DrawerContainer';
+import Header from '../components/Header/Header';
+
 import HomeScreen from '../screens/Home/HomeScreen';
 import CategoriesScreen from '../screens/Categories/CategoriesScreen';
 import ItemScreen from '../screens/Item/itemScreen';
+
+import ComponentsDetailsScreen from '../screens/ComponentsDetails/ComponentsDetailsScreen';
 import ItemsListScreen from '../screens/ItemList/ItemListScreen';
-import DrawerContainer from '../screens/DrawerContainer/DrawerContainer';
+
 import ComponentScreen from '../screens/Component/ComponentScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import CreateItemScreen from '../screens/CreateItem/CreateItemScreen';
+
 import ItemCostCalculateScreen from '../screens/ItemCostCalculate/ItemCostCalculate';
 import StockListScreen from '../screens/StockList/StockListScreen';
-
-
 import createOrderScreen from '../screens/CreateOrder/CreateOrderScreen';
+
 import EmptyItemsScreen from '../screens/EmptyItems/EmptyItems';
 import LoginScreen from '../screens/Login/LoginScreen';
 import RegistrationScreen from '../screens/Signup/SignupScreen';
+
 import { db } from '../firebase/config';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+
+
 import {Provider} from 'react-redux';
 import {store} from '../redux/store';
-import ComponentsDetailsScreen from '../screens/ComponentsDetails/ComponentsDetailsScreen';
 
 const Stack = createStackNavigator();
 
@@ -70,18 +78,18 @@ function MainNavigator() {
 
     { user ? (
       <>
-        <Stack.Screen name='Home' component={HomeScreen} />
-        <Stack.Screen name='Categories' component={CategoriesScreen}/>
-        <Stack.Screen name='Item' component={ItemScreen}/>
-        <Stack.Screen name='ItemsList' component={ItemsListScreen} />
-        <Stack.Screen name='Component' component={ComponentScreen} />
-        <Stack.Screen name='Search' component={SearchScreen} />
-        <Stack.Screen name='ComponentDetails' component={ComponentsDetailsScreen} />
-        <Stack.Screen name='createOrder' component={createOrderScreen} />
-        <Stack.Screen name='createItem' component={CreateItemScreen} />
-        <Stack.Screen name='EmptyItems' component={EmptyItemsScreen} />
-        <Stack.Screen name='itemCostCalculate' component={ItemCostCalculateScreen} />
-        <Stack.Screen name='stockList' component={StockListScreen} />
+        <Stack.Screen name='Home' component={HomeScreen} options={{ headerTitle: (props) => <Header {...props} title='Home' /> }} />
+        <Stack.Screen name='Categories' component={CategoriesScreen} options={{ headerTitle: (props) => <Header {...props} title='Categories' /> }}/>
+        <Stack.Screen name='Item' component={ItemScreen} options={{ headerTitle: (props) => <Header {...props} title='Item' /> }}/>
+        <Stack.Screen name='ItemsList' component={ItemsListScreen} options={{ headerTitle: (props) => <Header {...props} title='Item List' /> }}/>
+        <Stack.Screen name='Component' component={ComponentScreen} options={{ headerTitle: (props) => <Header {...props} title='Component' /> }}/>
+        <Stack.Screen name='Search' component={SearchScreen} options={{ headerTitle: (props) => <Header {...props} title='Search' /> }}/>
+        <Stack.Screen name='ComponentDetails' component={ComponentsDetailsScreen} options={{ headerTitle: (props) => <Header {...props}/> }}/>
+        <Stack.Screen name='createOrder' component={createOrderScreen} options={{ headerTitle: (props) => <Header {...props} title='Create Order' /> }}/>
+        <Stack.Screen name='createItem' component={CreateItemScreen} options={{ headerTitle: (props) => <Header {...props} /> }}/>
+        <Stack.Screen name='EmptyItems' component={EmptyItemsScreen} options={{ headerTitle: (props) => <Header {...props} title='Out of stock items' /> }}/>
+        <Stack.Screen name='itemCostCalculate' component={ItemCostCalculateScreen} options={{ headerTitle: (props) => <Header {...props} /> }}/>
+        <Stack.Screen name='stockList' component={StockListScreen} options={{ headerTitle: (props) => <Header {...props} title='Stock List' /> }}/>
       </>
     ) : (
           <>

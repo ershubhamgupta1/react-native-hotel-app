@@ -29,12 +29,6 @@ export default function CategoriesScreen(props) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitleStyle: {
-        fontWeight: "bold",
-        textAlign: "center",
-        alignSelf: "center",
-        flex: 1,
-      },
       headerLeft: () => (
         <MenuImage
           onPress={() => {

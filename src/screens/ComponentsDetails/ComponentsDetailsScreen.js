@@ -44,9 +44,6 @@ export default function ComponentsDetailsScreen(props) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title,
-      headerTitleStyle: {
-        fontSize: 16,
-      },
       headerLeft: () => (
         <BackButton
           onPress={() => {
@@ -54,17 +51,6 @@ export default function ComponentsDetailsScreen(props) {
           }}
         />
       ),
-      // headerRight: () => {
-      //   return (
-      //     <View style={{marginRight: 15}}>
-      //     <TouchableHighlight onPress={()=>{
-      //       setModalVisible(true);
-      //     }}>
-      //       <FontAwesome name={'plus'} color={'green'} size={22} />
-      //     </TouchableHighlight>
-      //     </View>
-      //   )
-      // },
     });
   }, []);
 
