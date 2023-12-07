@@ -4,10 +4,16 @@ import MultiSelect from 'react-native-multiple-select';
 import {View,  StyleSheet} from 'react-native';
 
 export default function MultiDropDown(props)  {
-    const {data, onSelect, selectedItems, displayKey, dropDownStyle, showSelectedItems} = props;
+    let {data, onSelect, selectedItems, displayKey, dropDownStyle, showSelectedItems} = props;
 
+    selectedItems = selectedItems.map(i=> i.toString());
+    data = data.map(i=> {
+      i.id = i.id.toString();
+      return i;
+    });
     const selectRef = useRef(null);
     const [refSet, setRefSet] = useState(false);
+
     return (
       <View>
         <MultiSelect

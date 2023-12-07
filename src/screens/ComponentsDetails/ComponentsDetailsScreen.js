@@ -2,7 +2,6 @@ import React, { useLayoutEffect, useEffect, useState } from "react";
 import { FlatList, Text, View, Image, TouchableHighlight } from "react-native";
 import styles from "./styles";
 import {useSelector, useDispatch} from 'react-redux';
-import {getComponentsByIds} from '../../redux/components/actions';
 import {getItems,  updateComponentsForItem} from '../../redux/items/actions';
 import MultiSelectDropdown from '../../components/MultiDropDown/MultiDropDown'
 import BackButton from "../../components/BackButton/BackButton";
@@ -18,12 +17,12 @@ export default function ComponentsDetailsScreen(props) {
 
 
 
-  const { components } = useSelector(state => state.componentsReducer);
   const { items } = useSelector(state => state.itemsReducer);
   const dispatch = useDispatch();
 
   useEffect(()=>{
     const tempComps = [];
+
     for(let i=0; i < selectedComponentIds.length; i++){
       let comp = items.find(o=> o.id == selectedComponentIds[i]);
       const compWithQuantity = componentsWithQuantity.find(o=> o.id == selectedComponentIds[i]);
@@ -34,13 +33,12 @@ export default function ComponentsDetailsScreen(props) {
     setComponentsWithQuantity(tempComps);
   }, [selectedComponentIds, items])
 
-  const fetchComponentsByIds = (ids) => dispatch(getComponentsByIds(ids));
   const fetchItems = () => dispatch(getItems());
 
   useEffect(() => {
     fetchItems();
-    if(selectedComponentIds && selectedComponentIds.length > 0) fetchComponentsByIds(selectedComponentIds);
   }, []);
+  
   useLayoutEffect(() => {
     navigation.setOptions({
       title,
