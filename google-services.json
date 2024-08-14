@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1067383523268",
+    "project_id": "react-native-hotel-f182c",
+    "storage_bucket": "react-native-hotel-f182c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067383523268:android:5062a9a210196a3f910691",
+        "android_client_info": {
+          "package_name": "com.ershubhamgupta1.instafoodrecipesapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_jZxXQbFE_X0LyIE1B3cTA60-6Yg6NkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,8 @@ import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import PushNotification, {schedulePushNotification} from '../../components/PushNotification/PushNotification';
+import { useEffect } from 'react';
 
 export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
@@ -11,6 +13,9 @@ export default function LoginScreen({navigation}) {
     const onFooterLinkPress = () => {
         navigation.navigate('Registration')
     }
+    useEffect(()=>{
+        schedulePushNotification()
+    }, [])
 
     const onLoginPress = async () => {
         try{
@@ -22,6 +27,7 @@ export default function LoginScreen({navigation}) {
             // const user = docSnap.data();
         }
         catch(error){
+            console.log('error======', error);
             if(error.code.includes('auth/invalid-login-credentials')) alert('Invalid Credentials!');
             else if(error.code.includes('auth/invalid-email')) alert('Invalid Email!');
             else alert(error.message);
@@ -30,7 +36,9 @@ export default function LoginScreen({navigation}) {
     }
 
     return (
+        
         <View style={styles.container}>
+            <PushNotification />
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%' }}
                 keyboardShouldPersistTaps="always">
